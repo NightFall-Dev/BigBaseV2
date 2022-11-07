@@ -1,23 +1,26 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+
 
 jobs:
   ci:
-    runs-on: windows-latest
+    runs-on: windows-2022
     name: CI
     steps:
-      - uses: actions/checkout@v2.4.0
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - name: Setup premake
-        uses: abel0b/setup-premake@v2
+        uses: abel0b/setup-premake@v2.4
         with:
-          version: "5.0.0-beta1"
+          version: "5.0.0-beta2"
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v3
 
       - name: Generate premake5 project
         run: premake5 vs2019
@@ -35,7 +38,7 @@ jobs:
         working-directory: bin/Release/
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: binary
           path: |
