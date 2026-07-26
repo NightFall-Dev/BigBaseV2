@@ -1178,24 +1178,6 @@ namespace big
 			    g_pointers->m_gta.m_vehicle_pool = ptr.add(3).rip().as<VehiclePool***>();
 		    }
         },
-        // Task Jump Constructor
-        {
-            "TJC",
-            "48 89 5C 24 ? 89 54 24 10 57 48 83 EC 30 0F 29 74 24",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_taskjump_constructor = ptr.as<PVOID>();
-            }
-        },
-        // Task Fall Constructor
-        {
-            "TFC",
-            "E8 ? ? ? ? B3 04 08 98 A0",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_taskfall_constructor = ptr.add(1).rip().as<PVOID>();
-            }
-        },
         // NetFilter Handle Message
         {
             "NHM",

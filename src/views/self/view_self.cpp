@@ -41,7 +41,6 @@ namespace big
 		components::command_checkbox<"invis">();
 		if (g.self.invisibility)
 			components::command_checkbox<"localvis">(); // TODO: does nothing in SP
-		components::command_checkbox<"gracefullanding">();
 
 		// clang-format off
 		ImGui::BeginDisabled(!*g_pointers->m_gta.m_is_session_started ||
@@ -73,10 +72,6 @@ namespace big
 		components::command_checkbox<"noidlekick">();
 		components::command_checkbox<"interactionmenufreedom">();
 		components::command_checkbox<"walkunder">();
-		if (!g.self.super_jump)
-			components::command_checkbox<"beastjump">();
-		if (!g.self.beast_jump)
-			components::command_checkbox<"superjump">();
 		components::command_checkbox<"nocollision">();
 
 		ImGui::EndGroup();

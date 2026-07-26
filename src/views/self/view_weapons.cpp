@@ -15,13 +15,7 @@ namespace big
 
 	constexpr auto custom_weapons = std::to_array<custom_weapon>({
 	    {big::CustomWeapon::NONE, "VIEW_SELF_WEAPONS_NONE"},
-	    {big::CustomWeapon::CAGE_GUN, "VIEW_SELF_WEAPONS_CAGE_GUN"},
-	    {big::CustomWeapon::DELETE_GUN, "VIEW_SELF_WEAPONS_DELETE_GUN"},
-	    {big::CustomWeapon::GRAVITY_GUN, "VIEW_SELF_WEAPONS_GRAVITY_GUN"},
-	    {big::CustomWeapon::STEAL_VEHICLE_GUN, "BACKEND_LOOPED_WEAPONS_STEAL_VEHICLE_GUN"},
-	    {big::CustomWeapon::REPAIR_GUN, "BACKEND_LOOPED_WEAPONS_REPAIR_GUN"},
 	    {big::CustomWeapon::VEHICLE_GUN, "BACKEND_LOOPED_WEAPONS_VEHICLE_GUN"},
-	    {big::CustomWeapon::TP_GUN, "VIEW_SELF_WEAPONS_TP_GUN"},
 	});
 
 	void view::weapons()
@@ -125,8 +119,6 @@ namespace big
 		components::command_checkbox<"incrdamage">();
 		ImGui::InputFloat("VIEW_WEAPON_DAMAGE"_T.data(), &g.weapons.increased_damage, .1, 10, "%.1f");
 
-		components::command_checkbox<"flyingaxe">();
-
 		components::command_checkbox<"modifyexplosionradius">();
 		ImGui::InputFloat("VIEW_WEAPON_EXPLOSION_RADIUS"_T.data(), &g.weapons.set_explosion_radius, .1, 200, "%.1f");
 
@@ -158,9 +150,6 @@ namespace big
 
 		switch (selected)
 		{
-		case CustomWeapon::GRAVITY_GUN:
-			ImGui::Checkbox("VIEW_WEAPON_LAUNCH_ON_RELEASE"_T.data(), &g.weapons.gravity_gun.launch_on_release);
-			break;
 		case CustomWeapon::VEHICLE_GUN:
 			components::input_text_with_hint("SHOOTING_MODEL"_T, "NAME_VEHICLE_MODEL"_T, g.weapons.vehicle_gun_model);
 			break;

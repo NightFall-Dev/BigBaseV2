@@ -38,10 +38,6 @@ namespace big
 			g_hotkey_service->update_hotkey("freecam", g.settings.hotkeys.freecam);
 		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_FASTRUN"_T.data(), &g.settings.hotkeys.superrun))
 			g_hotkey_service->update_hotkey("fastrun", g.settings.hotkeys.superrun);
-		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_SUPERJUMP"_T.data(), &g.settings.hotkeys.superjump))
-			g_hotkey_service->update_hotkey("superjump", g.settings.hotkeys.superjump);
-		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_BEASTJUMP"_T.data(), &g.settings.hotkeys.beastjump))
-			g_hotkey_service->update_hotkey("beastjump", g.settings.hotkeys.beastjump);
 		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_VEHICLE_INVISIBILITY"_T.data(), &g.settings.hotkeys.invisveh))
 			g_hotkey_service->update_hotkey("invisveh", g.settings.hotkeys.invisveh);
 		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_LOCAL_VEHICLE_INVISIBILITY"_T.data(), &g.settings.hotkeys.localinvisveh))

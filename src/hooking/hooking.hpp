@@ -147,10 +147,6 @@ namespace big
 		static rage::netGameEvent* send_player_card_stats(rage::netGameEvent* a1, CPlayerCardStats* stats);
 		static void serialize_stats(CStatsSerializationContext* context, rage::joaat_t* stats, uint32_t stat_count);
 
-		static __int64 task_jump_constructor(uint64_t a1, int a2);
-
-		static void* task_fall_constructor(uint64_t a1, int a2);
-
 		static CBaseModelInfo* get_model_info(rage::joaat_t hash, uint32_t* a2);
 
 		static int enumerate_audio_devices(CFoundDevice* found_devices, int count, int flags);

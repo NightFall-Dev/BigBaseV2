@@ -48,14 +48,8 @@ namespace big
 		static void vehicle_allow_all_weapons();
 		static void vehicle_boost_behavior();
 
-		static void weapons_tp_gun();
 		static void weapons_ammo_special_type();
-		static void weapons_cage_gun();
 		static void custom_gun_disable_control_action();
-		static void weapons_delete_gun();
-		static void weapons_gravity_gun();
-		static void weapons_repair_gun();
-		static void weapons_steal_vehicle_gun();
 		static void weapons_vehicle_gun();
 		static void weapons_c4_limit();
 		static void weapons_do_persist_weapons();

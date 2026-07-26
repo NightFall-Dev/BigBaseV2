@@ -100,13 +100,7 @@ namespace big
 
 		while (g_running)
 		{
-			looped::weapons_tp_gun();
 			looped::weapons_ammo_special_type();
-			looped::weapons_cage_gun();
-			looped::weapons_delete_gun();
-			looped::weapons_gravity_gun();
-			looped::weapons_repair_gun();
-			looped::weapons_steal_vehicle_gun();
 			looped::weapons_vehicle_gun();
 			looped::weapons_c4_limit();
 			looped::weapons_do_persist_weapons();

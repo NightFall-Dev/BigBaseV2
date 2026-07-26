@@ -2,6 +2,15 @@ name: CI
 
 on:
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release - Builds release by default.'
+        default: 'true'
+        required: true
+        type: choice
+        options:
+        - true
+        - false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -32,17 +41,43 @@ jobs:
           arch: amd64
 
       - name: Generate CMake project
+        if: github.event.inputs.release == 'true'
+        run: |
+            cmake -D CMAKE_BUILD_TYPE=Release -D OPTIMIZE=True -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release -G Ninja
+
+      - name: Generate CMake project
+        if: github.event.inputs.release != 'true'
         run: |
             cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release-Dev -G Ninja
 
-      - name: Build 64bit release DLL
+      - name: Build 64bit DLL
+        if: github.event.inputs.release == 'true'
+        run: |
+            cmake --build ./build/x64-Release --config Release --target YimMenu --
+            
+      - name: Build 64bit DLL
+        if: github.event.inputs.release != 'true'
         run: |
             cmake --build ./build/x64-Release-Dev --config RelWithDebInfo --target YimMenu --
 
       - name: Check if DLL got built
+        if: github.event.inputs.release == 'true'
+        run: if (-Not (Test-Path -path "build/x64-Release/YimMenu.dll")) {throw 1}
+        
+      - name: Check if DLL got built
+        if: github.event.inputs.release != 'true'
         run: if (-Not (Test-Path -path "build/x64-Release-Dev/YimMenu.dll")) {throw 1}
 
+      - name: Rename DLL to YimMenu-{GITHUB_SHA}.dll
+        if: github.event.inputs.release == 'true'
+        run: |
+          del YimMenu-*.dll
+          ren YimMenu.dll YimMenu-${{github.sha}}.dll
+          sha256sum YimMenu-*.dll > YimMenu-${{github.sha}}.dll.sha256
+        working-directory: build/x64-Release/
+        
       - name: Rename DLL to YimMenu-dev-{GITHUB_SHA}.dll
+        if: github.event.inputs.release != 'true'
         run: |
           del YimMenu-dev-*.dll
           ren YimMenu.dll YimMenu-dev-${{github.sha}}.dll
@@ -54,8 +89,8 @@ jobs:
         with:
           name: bin
           path: |
-            build/x64-Release-Dev/YimMenu-dev-*.dll
-            build/x64-Release-Dev/YimMenu-dev-*.dll.sha256
+            build/*/YimMenu-*.dll
+            build/*/YimMenu-*.dll.sha256
           compression-level: 0
           
       - name: Upload Artifact

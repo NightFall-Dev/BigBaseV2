@@ -14,24 +14,12 @@ namespace big
 	enum class CustomWeapon
 	{
 		NONE,
-		CAGE_GUN,
-		DELETE_GUN,
-		GRAVITY_GUN,
-		STEAL_VEHICLE_GUN,
-		REPAIR_GUN,
 		VEHICLE_GUN,
-		TP_GUN,
 	};
 	NLOHMANN_JSON_SERIALIZE_ENUM(CustomWeapon,
 	    {
 	        {CustomWeapon::NONE, "none"},
-	        {CustomWeapon::CAGE_GUN, "cage"},
-	        {CustomWeapon::DELETE_GUN, "delete"},
-	        {CustomWeapon::GRAVITY_GUN, "gravity"},
-	        {CustomWeapon::STEAL_VEHICLE_GUN, "steal"},
-	        {CustomWeapon::REPAIR_GUN, "repair"},
 	        {CustomWeapon::VEHICLE_GUN, "vehicle"},
-	        {CustomWeapon::TP_GUN, "tp"},
 	    })
 
 	enum class ContextEntityType : uint8_t
