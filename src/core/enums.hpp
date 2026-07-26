@@ -21,7 +21,6 @@ namespace big
 		REPAIR_GUN,
 		VEHICLE_GUN,
 		TP_GUN,
-		PAINT_GUN
 	};
 	NLOHMANN_JSON_SERIALIZE_ENUM(CustomWeapon,
 	    {
@@ -33,7 +32,6 @@ namespace big
 	        {CustomWeapon::REPAIR_GUN, "repair"},
 	        {CustomWeapon::VEHICLE_GUN, "vehicle"},
 	        {CustomWeapon::TP_GUN, "tp"},
-	        {CustomWeapon::PAINT_GUN, "paint"},
 	    })
 
 	enum class ContextEntityType : uint8_t
@@ -242,19 +240,6 @@ namespace big
 	        {SpeedUnit::KMPH, "kmph"},
 	        {SpeedUnit::MIPH, "mph"},
 	        {SpeedUnit::MPS, "mps"},
-	    })
-
-	enum class RainbowPaintType
-	{
-		Off,
-		Fade,
-		Spasm
-	};
-	NLOHMANN_JSON_SERIALIZE_ENUM(RainbowPaintType,
-	    {
-	        {RainbowPaintType::Off, "off"},
-	        {RainbowPaintType::Fade, "fade"},
-	        {RainbowPaintType::Spasm, "spasm"},
 	    })
 
 	enum class AutoDriveDestination

@@ -56,8 +56,6 @@ namespace big
 			g_hotkey_service->update_hotkey("repairpv", g.settings.hotkeys.repairpv);
 		if (ImGui::Hotkey("VEHICLE_CONTROLLER"_T.data(), &g.settings.hotkeys.open_vehicle_controller))
 			g_hotkey_service->update_hotkey("vehiclecontroller", g.settings.hotkeys.open_vehicle_controller);
-		if (ImGui::Hotkey("VIEW_HOTKEY_SETTINGS_TOGGLE_VEHICLE_FLY"_T.data(), &g.settings.hotkeys.vehicle_flymode))
-			g_hotkey_service->update_hotkey("vehiclefly", g.settings.hotkeys.vehicle_flymode);
 		if (ImGui::Hotkey("CLEAR_WANTED_LEVEL"_T.data(), &g.settings.hotkeys.clear_wanted))
 			g_hotkey_service->update_hotkey("clearwantedself", g.settings.hotkeys.clear_wanted);
 

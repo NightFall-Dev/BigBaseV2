@@ -101,7 +101,6 @@ namespace big
 		while (g_running)
 		{
 			looped::weapons_tp_gun();
-			looped::weapons_paint_gun();
 			looped::weapons_ammo_special_type();
 			looped::weapons_cage_gun();
 			looped::weapons_delete_gun();
@@ -167,18 +166,6 @@ namespace big
 			looped::player_toxic_options();
 			looped::player_spectate();
 			looped::player_remote_control_vehicle();
-
-			script::get_current()->yield();
-		}
-	}
-
-	void backend::rainbowpaint_loop()
-	{
-		LOG(INFO) << "Starting script: Rainbow Paint";
-
-		while (g_running)
-		{
-			looped::vehicle_rainbow_paint();
 
 			script::get_current()->yield();
 		}

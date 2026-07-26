@@ -369,7 +369,6 @@ namespace big
 			bool graceful_landing             = false;
 			bool healthregen                  = false;
 			float healthregenrate             = 1.0f;
-			bool superman                     = false;
 			bool custom_weapon_stop           = true;
 			bool prompt_ambient_animations    = false;
 			std::string persist_outfit        = "";
@@ -394,21 +393,7 @@ namespace big
 				NLOHMANN_DEFINE_TYPE_INTRUSIVE(hud, color_override, color_override_initialized, hud_color_overrides, hide_radar, hide_ammo, selected_hud_component, hud_components_states, force_show_hud_element, force_show_hud)
 			} hud{};
 
-			struct super_hero_fly
-			{
-				bool enabled         = false;
-				bool gradual         = true;
-				bool explosions      = true;
-				bool auto_land       = false;
-				bool charge          = true;
-				bool ptfx            = true;
-				float fly_speed      = 15.f;
-				float initial_launch = 15.f;
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(super_hero_fly, gradual, explosions, auto_land, charge, ptfx, fly_speed, initial_launch)
-			} super_hero_fly{};
-
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, ipls, ptfx_effects, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, super_jump, beast_jump, healthregen, healthregenrate, hud, superman, custom_weapon_stop, prompt_ambient_animations, persist_outfit, persist_outfits_mis, interaction_menu_freedom, super_hero_fly, graceful_landing)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, ipls, ptfx_effects, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, super_jump, beast_jump, healthregen, healthregenrate, hud, custom_weapon_stop, prompt_ambient_animations, persist_outfit, persist_outfits_mis, interaction_menu_freedom, graceful_landing)
 
 		} self{};
 
@@ -509,7 +494,6 @@ namespace big
 				int teleport_pv             = 0;
 				int teleport_selected       = 0;
 				int noclip                  = 0;
-				int vehicle_flymode         = 0;
 				int bringvehicle            = 0;
 				int invis                   = 0;
 				int heal                    = 0;
@@ -529,7 +513,7 @@ namespace big
 				int open_vehicle_controller = 0;
 				int clear_wanted            = 0;
 
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(hotkeys, editing_menu_toggle, menu_toggle, teleport_waypoint, teleport_objective, teleport_selected, teleport_pv, noclip, vehicle_flymode, bringvehicle, invis, heal, fill_inventory, skip_cutscene, freecam, superrun, passive, superjump, beastjump, invisveh, localinvisveh, fill_ammo, fast_quit, cmd_excecutor, repairpv, open_vehicle_controller, clear_wanted)
+				NLOHMANN_DEFINE_TYPE_INTRUSIVE(hotkeys, editing_menu_toggle, menu_toggle, teleport_waypoint, teleport_objective, teleport_selected, teleport_pv, noclip, bringvehicle, invis, heal, fill_inventory, skip_cutscene, freecam, superrun, passive, superjump, beastjump, invisveh, localinvisveh, fill_ammo, fast_quit, cmd_excecutor, repairpv, open_vehicle_controller, clear_wanted)
 			} hotkeys{};
 
 			NLOHMANN_DEFINE_TYPE_INTRUSIVE(settings, hotkeys, dev_dlc, onboarding_complete)
@@ -746,8 +730,8 @@ namespace big
 		{
 			struct speedo_meter
 			{
-				float x = .9f;
-				float y = .72f;
+				float x = 0.56f;
+				float y = 0.55f;
 
 				bool enabled           = false;
 				bool left_side         = false;
@@ -755,29 +739,6 @@ namespace big
 
 				NLOHMANN_DEFINE_TYPE_INTRUSIVE(speedo_meter, x, y, enabled, left_side, show_current_gear)
 			} speedo_meter{};
-
-			struct fly
-			{
-				bool dont_stop    = false;
-				bool enabled      = false;
-				bool no_collision = false;
-				bool stop_on_exit = false;
-				float speed       = 100;
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(fly, dont_stop, enabled, no_collision, stop_on_exit, speed)
-			} fly{};
-
-			struct rainbow_paint
-			{
-				RainbowPaintType type = RainbowPaintType::Off;
-				bool neon             = false;
-				bool primary          = false;
-				bool secondary        = false;
-				bool smoke            = false;
-				int speed             = 1;
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(rainbow_paint, type, neon, primary, secondary, smoke, speed)
-			} rainbow_paint{};
 
 			SpeedUnit speed_unit = SpeedUnit::MIPH;
 
@@ -853,7 +814,7 @@ namespace big
 				NLOHMANN_DEFINE_TYPE_INTRUSIVE(vehicle_ammo_special, enabled, type, explosion_tag, speed, time_between_shots, alternate_wait_time, weapon_range, rocket_time_between_shots, rocket_alternate_wait_time, rocket_lock_on_range, rocket_range, rocket_reload_time, rocket_explosion_tag, rocket_lifetime, rocket_launch_speed, rocket_time_before_homing, rocket_improve_tracking)
 			} vehicle_ammo_special{};
 
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(vehicle, speedo_meter, fly, rainbow_paint, speed_unit, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, auto_drive_destination, auto_drive_style, auto_drive_speed, auto_turn_signals, boost_behavior, drive_on_water, horn_boost, instant_brake, infinite_veh_ammo, block_homing, seatbelt, turn_signals, vehicle_jump, keep_vehicle_repaired, no_water_collision, disable_engine_auto_start, change_engine_state_immediately, keep_engine_running, keep_vehicle_clean, vehinvisibility, localveh_visibility, keep_on_ground, no_collision, unlimited_weapons, siren_mute, all_vehs_in_heists, abilities, vehicle_ammo_special)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(vehicle, speedo_meter, speed_unit, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, auto_drive_destination, auto_drive_style, auto_drive_speed, auto_turn_signals, boost_behavior, drive_on_water, horn_boost, instant_brake, infinite_veh_ammo, block_homing, seatbelt, turn_signals, vehicle_jump, keep_vehicle_repaired, no_water_collision, disable_engine_auto_start, change_engine_state_immediately, keep_engine_running, keep_vehicle_clean, vehinvisibility, localveh_visibility, keep_on_ground, no_collision, unlimited_weapons, siren_mute, all_vehs_in_heists, abilities, vehicle_ammo_special)
 		} vehicle{};
 
 		struct weapons
@@ -883,14 +844,6 @@ namespace big
 				NLOHMANN_DEFINE_TYPE_INTRUSIVE(gravity_gun, launch_on_release)
 			} gravity_gun{};
 
-			struct paintgun
-			{
-				bool rainbow = false;
-				float speed  = 1.f;
-				float col[4] = {0.f, 0.f, 1.f, 1.f};
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(paintgun, rainbow, col)
-			} paintgun{};
-
 			struct aimbot
 			{
 				bool enable              = false;
@@ -900,7 +853,7 @@ namespace big
 				bool only_on_enemy       = false;
 				bool only_on_threats     = false;
 				bool has_target          = false;
-				bool use_weapon_range    = false;
+				bool use_weapon_range    = true;
 				float fov                = 60.f;
 				float distance           = 200.f;
 				int32_t selected_bone    = (int32_t)ePedBoneType::HEAD;
@@ -924,7 +877,7 @@ namespace big
 			bool no_recoil                = false;
 			bool no_spread                = false;
 			bool no_sway                  = false;
-			std::string vehicle_gun_model = "bus";
+			std::string vehicle_gun_model = "phantom2";
 			bool increased_c4_limit       = false;
 			bool increased_flare_limit    = false;
 			bool rapid_fire               = false;
@@ -935,11 +888,11 @@ namespace big
 			bool enable_mk1_variants      = false;
 			std::map<int, std::vector<uint32_t>> weapon_hotkeys{};
 
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(weapons, ammo_special, custom_weapon, aimbot, infinite_ammo, always_full_ammo, infinite_mag, increased_damage, increase_damage, set_explosion_radius, modify_explosion_radius, no_recoil, no_spread, vehicle_gun_model, increased_c4_limit, increased_flare_limit, rapid_fire, gravity_gun, paintgun, interior_weapon, triggerbot, infinite_range, enable_weapon_hotkeys, weapon_hotkeys, enable_mk1_variants, no_sway)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(weapons, ammo_special, custom_weapon, aimbot, infinite_ammo, always_full_ammo, infinite_mag, increased_damage, increase_damage, set_explosion_radius, modify_explosion_radius, no_recoil, no_spread, vehicle_gun_model, increased_c4_limit, increased_flare_limit, rapid_fire, gravity_gun, interior_weapon, triggerbot, infinite_range, enable_weapon_hotkeys, weapon_hotkeys, enable_mk1_variants, no_sway)
 		} weapons{};
 
 		struct window
-		{
+		{// These are default settings
 			ImU32 background_color = 3696311571;
 			ImU32 text_color       = 4294967295;
 			ImU32 button_color     = 2947901213;

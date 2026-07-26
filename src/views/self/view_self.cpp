@@ -85,25 +85,6 @@ namespace big
 
 		components::command_checkbox<"cleanloop">();
 		components::command_checkbox<"mobileradio">();
-		components::command_checkbox<"superherofly">();
-		components::options_modal("SUPER_HERO_FLY_OPTION_MODAL"_T, [] {
-			ImGui::Text("SUPER_HERO_FLY_OPTION_MODAL_DETAILED_DESC"_T.data());
-			ImGui::Separator();
-
-			components::command_checkbox<"superheroflygradualspeed">();
-			components::disable_unless([] { return !g.self.super_hero_fly.gradual; }, []{
-				ImGui::SetNextItemWidth(150);
-				components::command_float_input<"superheroflyspeed">();
-			});
-			components::command_checkbox<"superheroflyexplosions">();
-			components::command_checkbox<"superheroflyautoland">();
-			components::command_checkbox<"superheroflychargelaunch">();
-			components::disable_unless([] { return g.self.super_hero_fly.charge; }, []{
-				components::command_checkbox<"superheroflychargeptfx">();
-			});
-			ImGui::SetNextItemWidth(150);
-			components::command_float_input<"superheroflyinitiallaunch">();
-		});
 
 		components::command_checkbox<"orbitaldrone">();
 		components::options_modal("VIEW_SELF_ORBITAL_DRONE"_T.data(), [] {

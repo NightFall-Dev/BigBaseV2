@@ -34,7 +34,6 @@ namespace big
 		register_hotkey("skipcutscene", g.settings.hotkeys.skip_cutscene, "skipcutscene"_J);
 		register_hotkey("superjump", g.settings.hotkeys.superjump, "superjump"_J);
 		register_hotkey("vehiclecontroller", g.settings.hotkeys.open_vehicle_controller, "vehiclecontrol"_J);
-		register_hotkey("vehiclefly", g.settings.hotkeys.vehicle_flymode, "vehiclefly"_J);
 		register_hotkey("waypoint", g.settings.hotkeys.teleport_waypoint, "waypointtp"_J);
 		register_hotkey("highlighttp", g.settings.hotkeys.teleport_selected, "highlighttp"_J);
 

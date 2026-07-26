@@ -1,12 +1,7 @@
 name: CI
 
 on:
-  pull_request:
-    paths:
-      - src/**
-      - cmake/**
-      - CMakeLists.txt
-      - .github/workflows/ci.yml
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,45 +9,58 @@ concurrency:
 
 jobs:
   ci:
-    runs-on: [self-hosted, Windows]
+    runs-on: windows-2022
     name: CI
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+          submodules: recursive
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.20.x'
 
       - name: Check CMake version
         run: cmake --version
 
       - name: Setup MSVC environment
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: amd64
 
       - name: Generate CMake project
-        run: cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D OPTIMIZE=YES -S. -Bbuild -G Ninja
+        run: |
+            cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release-Dev -G Ninja
 
       - name: Build 64bit release DLL
-        run: cmake --build ./build --config RelWithDebInfo --target YimMenu --
+        run: |
+            cmake --build ./build/x64-Release-Dev --config RelWithDebInfo --target YimMenu --
 
       - name: Check if DLL got built
-        run: if (-Not (Test-Path -path "build/YimMenu.dll")) {throw 1}
+        run: if (-Not (Test-Path -path "build/x64-Release-Dev/YimMenu.dll")) {throw 1}
 
       - name: Rename DLL to YimMenu-dev-{GITHUB_SHA}.dll
         run: |
           del YimMenu-dev-*.dll
-          del YimMenu-dev-*.pdb
           ren YimMenu.dll YimMenu-dev-${{github.sha}}.dll
-          ren YimMenu.pdb YimMenu.pdb
-        working-directory: build/
+          sha256sum YimMenu-dev-*.dll > YimMenu-dev-${{github.sha}}.dll.sha256
+        working-directory: build/x64-Release-Dev/
 
-      - name: Upload Artifact (dll)
-        uses: actions/upload-artifact@v3
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: binary
+          name: bin
           path: |
-            build/YimMenu-dev-*.dll
-      - name: Upload Artifact (pdb)
-        uses: actions/upload-artifact@v3
+            build/x64-Release-Dev/YimMenu-dev-*.dll
+            build/x64-Release-Dev/YimMenu-dev-*.dll.sha256
+          compression-level: 0
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: pdb
           path: |
-            build/YimMenu.pdb
+            build/*/YimMenu*.pdb

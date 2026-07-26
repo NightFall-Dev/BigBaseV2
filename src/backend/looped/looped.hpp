@@ -47,7 +47,6 @@ namespace big
 		static void vehicle_auto_drive();
 		static void vehicle_allow_all_weapons();
 		static void vehicle_boost_behavior();
-		static void vehicle_rainbow_paint();
 
 		static void weapons_tp_gun();
 		static void weapons_ammo_special_type();
@@ -61,7 +60,6 @@ namespace big
 		static void weapons_c4_limit();
 		static void weapons_do_persist_weapons();
 		static void weapons_do_weapon_hotkeys();
-		static void weapons_paint_gun();
 
 		static void drive_train();
 		static void derail_train();

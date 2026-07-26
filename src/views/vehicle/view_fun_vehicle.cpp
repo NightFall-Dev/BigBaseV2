@@ -150,45 +150,6 @@ namespace big
 			}
 		}
 
-		ImGui::SeparatorText("RAINBOW_PAINT"_T.data());
-		{
-			components::command_checkbox<"rainbowpri">("PRIMARY"_T);
-			ImGui::SameLine();
-			components::command_checkbox<"rainbowsec">("SECONDARY"_T);
-			ImGui::SameLine();
-			components::command_checkbox<"rainbowneons">("NEON"_T);
-			ImGui::SameLine();
-			components::command_checkbox<"rainbowsmoke">("SMOKE"_T);
-
-			const char* rgb_types[] = {"OFF"_T.data(), "FADE"_T.data(), "SPASM"_T.data()};
-
-			ImGui::SetNextItemWidth(120);
-			if (ImGui::BeginCombo("RGB_TYPE"_T.data(), rgb_types[(int)g.vehicle.rainbow_paint.type]))
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					bool itemSelected = (int)g.vehicle.rainbow_paint.type == i;
-
-					if (ImGui::Selectable(rgb_types[i], itemSelected))
-					{
-						g.vehicle.rainbow_paint.type = (RainbowPaintType)i;
-					}
-
-					if (itemSelected)
-					{
-						ImGui::SetItemDefaultFocus();
-					}
-				}
-
-				ImGui::EndCombo();
-			}
-			if (g.vehicle.rainbow_paint.type != RainbowPaintType::Off)
-			{
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				components::command_int_slider<"rainbowspeed">("RGB_SPEED"_T);
-			}
-		}
 		ImGui::Separator();
 
 		const char* boost_behaviors[] = {"DEFAULT"_T.data(),
@@ -225,34 +186,6 @@ namespace big
 				components::command_checkbox<"parachuteability">();
 				components::command_checkbox<"rampability">();
 				components::command_checkbox<"gliderability">();
-			}
-		}
-		ImGui::SeparatorText("VEHICLE_FLY"_T.data());
-		{
-			ImGui::BeginGroup();
-
-			components::command_checkbox<"vehiclefly">("ENABLED"_T);
-			ImGui::Checkbox("DONT_STOP"_T.data(), &g.vehicle.fly.dont_stop);
-
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-
-			ImGui::Checkbox("DISABLE_COLLISION"_T.data(), &g.vehicle.fly.no_collision);
-			ImGui::Checkbox("STOP_ON_EXIT"_T.data(), &g.vehicle.fly.stop_on_exit);
-
-			ImGui::EndGroup();
-
-			float fly_speed_user_unit = vehicle::mps_to_speed(g.vehicle.fly.speed, g.vehicle.speed_unit);
-			if (ImGui::SliderFloat(
-			        std::vformat("FUN_VEHICLE_SPEED"_T.data(), std::make_format_args(speed_unit_strings[(int)g.vehicle.speed_unit]))
-			            .c_str(),
-			        &fly_speed_user_unit,
-			        vehicle::mps_to_speed(0.f, g.vehicle.speed_unit),
-			        vehicle::mps_to_speed(150.f, g.vehicle.speed_unit),
-			        "%.1f"))
-			{
-				g.vehicle.fly.speed = vehicle::speed_to_mps(fly_speed_user_unit, g.vehicle.speed_unit);
 			}
 		}
 		ImGui::SeparatorText("CUSTOM_VEH_WEAPONS"_T.data());
