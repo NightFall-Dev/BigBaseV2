@@ -163,7 +163,7 @@ namespace big
 		ImGui::SetNextItemWidth(250);
 		ImGui::InputText("##vehiclefilename", vehicle_file_name_input, IM_ARRAYSIZE(vehicle_file_name_input));
 		if (ImGui::IsItemActive())
-			g.self.hud.typing = TYPING_TICKS;
+			g.self.typing = TYPING_TICKS;
 		if (ImGui::IsItemHovered())
 			ImGui::SetTooltip("VEHICLE_FILE_NAME_EXAMPLE"_T.data());
 
@@ -174,7 +174,7 @@ namespace big
 			ImGui::SetNextItemWidth(250);
 			ImGui::InputText("##foldername", save_folder, IM_ARRAYSIZE(save_folder));
 			if (ImGui::IsItemActive())
-				g.self.hud.typing = TYPING_TICKS;
+				g.self.typing = TYPING_TICKS;
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("VEHICLE_FOLDER_NAME_EXAMPLE"_T.data());
 

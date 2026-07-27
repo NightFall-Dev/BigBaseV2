@@ -357,7 +357,7 @@ namespace big
 			ImGui::SetNextItemWidth(200.f);
 			components::input_text("##localname", local_name, IM_ARRAYSIZE(local_name));
 			if (ImGui::IsItemActive())
-				g.self.hud.typing = TYPING_TICKS;
+				g.self.typing = TYPING_TICKS;
 			if (ImGui::Button("VIEW_DEBUG_LOCALS_SAVE_LOCAL"_T.data()))
 			{
 				save_local(local_name, local_test);

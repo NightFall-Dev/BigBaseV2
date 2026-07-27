@@ -371,26 +371,9 @@ namespace big
 			std::string persist_outfit        = "";
 			bool persist_outfits_mis          = false;
 			bool interaction_menu_freedom     = false;
+			std::atomic_uint_fast8_t typing   = 0;
 
-			struct hud
-			{
-				bool color_override                                      = false;
-				bool color_override_initialized                          = false;
-				std::array<color, hud_colors.size()> hud_color_overrides = {};
-				std::array<color, hud_colors.size()> hud_color_defaults  = {}; // don't save
-
-				bool hide_radar                            = false;
-				bool hide_ammo                             = false;
-				int selected_hud_component                 = 1;
-				std::array<bool, 22> hud_components_states = {false};
-				bool force_show_hud_element                = false;
-				bool force_show_hud                        = false;
-				std::atomic_uint_fast8_t typing            = 0;
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(hud, color_override, color_override_initialized, hud_color_overrides, hide_radar, hide_ammo, selected_hud_component, hud_components_states, force_show_hud_element, force_show_hud)
-			} hud{};
-
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, ipls, ptfx_effects, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, hud, custom_weapon_stop, prompt_ambient_animations, persist_outfit, persist_outfits_mis, interaction_menu_freedom)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, ipls, ptfx_effects, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, custom_weapon_stop, prompt_ambient_animations, persist_outfit, persist_outfits_mis, interaction_menu_freedom)
 
 		} self{};
 

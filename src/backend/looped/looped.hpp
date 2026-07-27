@@ -26,7 +26,6 @@ namespace big
 		static void player_remote_control_vehicle();
 
 		static void self_wanted();
-		static void self_hud();
 		static void self_persist_outfit();
 
 		static void session_pop_multiplier_areas();

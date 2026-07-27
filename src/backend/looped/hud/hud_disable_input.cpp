@@ -5,10 +5,10 @@ namespace big
 {
 	void looped::hud_disable_input()
 	{
-		if (g.self.hud.typing)
+		if (g.self.typing)
 		{
 			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
-			g.self.hud.typing--;
+			g.self.typing--;
 		}
 		g.settings.hotkeys.is_mp_chat_active = HUD::IS_MP_TEXT_CHAT_TYPING();
 	}

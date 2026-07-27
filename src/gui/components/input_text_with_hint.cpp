@@ -13,7 +13,7 @@ namespace big
 
 		if (ImGui::IsItemActive())
 		{
-			g.self.hud.typing = TYPING_TICKS;
+			g.self.typing = TYPING_TICKS;
 
 			draw_input_method_editor();
 
@@ -36,7 +36,7 @@ namespace big
 
 		if (ImGui::IsItemActive())
 		{
-			g.self.hud.typing = TYPING_TICKS;
+			g.self.typing = TYPING_TICKS;
 
 			draw_input_method_editor();
 

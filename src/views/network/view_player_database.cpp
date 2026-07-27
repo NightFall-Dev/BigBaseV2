@@ -135,7 +135,7 @@ namespace big
 					current_player->name = name_buf;
 				}
 				if (ImGui::IsItemActive())
-					g.self.hud.typing = TYPING_TICKS;
+					g.self.typing = TYPING_TICKS;
 
 				if (ImGui::InputScalar("RID"_T.data(), ImGuiDataType_S64, &current_player->rockstar_id)
 				    || ImGui::Checkbox("IS_MODDER"_T.data(), &current_player->is_modder)
@@ -217,7 +217,7 @@ namespace big
 					notes_dirty           = true;
 				}
 				if (ImGui::IsItemActive())
-					g.self.hud.typing = TYPING_TICKS;
+					g.self.typing = TYPING_TICKS;
 
 				ImGui::Checkbox("VIEW_NET_PLAYER_DB_JOIN_REDIRECT"_T.data(), &current_player->join_redirect);
 				if (ImGui::IsItemHovered())

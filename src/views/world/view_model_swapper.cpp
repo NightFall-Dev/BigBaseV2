@@ -17,12 +17,12 @@ namespace big
 		ImGui::SetNextItemWidth(width);
 		ImGui::InputText("VIEW_MODEL_SWAPPER_DEST"_T.data(), dst_text, IM_ARRAYSIZE(dst_text));
 		if (ImGui::IsItemActive())
-			g.self.hud.typing = TYPING_TICKS;
+			g.self.typing = TYPING_TICKS;
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(width);
 		ImGui::InputText("VIEW_MODEL_SWAPPER_SRC"_T.data(), src_text, IM_ARRAYSIZE(src_text));
 		if (ImGui::IsItemActive())
-			g.self.hud.typing = TYPING_TICKS;
+			g.self.typing = TYPING_TICKS;
 		ImGui::SameLine();
 
 		if (ImGui::Button("ADD"_T.data()))
