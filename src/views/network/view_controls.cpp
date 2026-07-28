@@ -252,11 +252,6 @@ namespace big
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("FORCE"_T.data(), &g.session.wanted_level_all))
-		{
-			scr_globals::globalplayer_bd.as<GlobalPlayerBD*>()->Entries[self::id].RemoteWantedLevelPlayer = __rdtsc() + 32;
-			scr_globals::globalplayer_bd.as<GlobalPlayerBD*>()->Entries[self::id].RemoteWantedLevelAmount = global_wanted_level;
-		}
 		ImGui::EndGroup();
 	}
 

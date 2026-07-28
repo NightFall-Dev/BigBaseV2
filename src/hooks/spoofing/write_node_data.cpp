@@ -1,23 +1,22 @@
-#include "hooking/hooking.hpp"
 #include "gta/net_game_event.hpp"
-#include "util/sync_trees.hpp"
-#include "util/model_info.hpp"
+#include "hooking/hooking.hpp"
+#include "services/players/player_service.hpp"
 #include "util/globals.hpp"
 #include "util/math.hpp"
-
-#include "services/players/player_service.hpp"
+#include "util/model_info.hpp"
+#include "util/sync_trees.hpp"
 
 #include <netsync/nodes/ped/CPedGameStateDataNode.hpp>
+#include <netsync/nodes/ped/CPedHealthDataNode.hpp>
 #include <netsync/nodes/ped/CPedTaskTreeDataNode.hpp>
 #include <netsync/nodes/physical/CPhysicalScriptGameStateDataNode.hpp>
-#include <netsync/nodes/proximity_migrateable/CSectorDataNode.hpp>
 #include <netsync/nodes/player/CPlayerAppearanceDataNode.hpp>
 #include <netsync/nodes/player/CPlayerCameraDataNode.hpp>
-#include <netsync/nodes/player/CPlayerGameStateDataNode.hpp>
 #include <netsync/nodes/player/CPlayerCreationDataNode.hpp>
+#include <netsync/nodes/player/CPlayerGameStateDataNode.hpp>
 #include <netsync/nodes/player/CPlayerGamerDataNode.hpp>
 #include <netsync/nodes/player/CPlayerSectorPosNode.hpp>
-#include <netsync/nodes/ped/CPedHealthDataNode.hpp>
+#include <netsync/nodes/proximity_migrateable/CSectorDataNode.hpp>
 
 namespace
 {
@@ -56,7 +55,7 @@ namespace big
 {
 	void hooks::write_node_data(void* data_node, rage::netObject* net_object, rage::datBitBuffer* buffer, void* log, bool update)
 	{
-		bool node_updated = false;
+		bool node_updated                  = false;
 		rage::datBitBuffer original_buffer = *buffer;
 		g_hooking->get_original<hooks::write_node_data>()(data_node, net_object, buffer, log, update);
 
@@ -64,10 +63,11 @@ namespace big
 
 		switch (node)
 		{
-		case sync_node_id("CPhysicalScriptGameStateDataNode"): 
+		case sync_node_id("CPhysicalScriptGameStateDataNode"):
 		{
 			auto node = reinterpret_cast<CPhysicalScriptGameStateDataNode*>(data_node);
-			if (g.spoofing.spoof_hide_veh_god && g_local_player && self::veh && g_local_player->m_vehicle && g_local_player->m_vehicle->m_net_object == net_object)
+			if (g.spoofing.spoof_hide_veh_god && g_local_player && self::veh && g_local_player->m_vehicle
+			    && g_local_player->m_vehicle->m_net_object == net_object)
 			{
 				node->m_godmode         = false;
 				node->m_bullet_proof    = false;
@@ -77,7 +77,7 @@ namespace big
 				node->m_collision_proof = false;
 				node->m_explosion_proof = false;
 				node->m_melee_proof     = false;
-				node_updated = true;
+				node_updated            = true;
 			}
 			break;
 		}
@@ -92,7 +92,7 @@ namespace big
 				}
 				node->m_has_head_blend_data         = false;
 				node->components.m_component_bitset = 0;
-				node_updated            = true;
+				node_updated                        = true;
 			}
 			break;
 		}
@@ -105,7 +105,7 @@ namespace big
 				{
 					node->m_model = model_hash;
 				}
-				node_updated                        = true;
+				node_updated = true;
 			}
 			break;
 		}
@@ -178,16 +178,16 @@ namespace big
 			if (g.session.harass_players && g.m_sync_target_player < 32 && *g_pointers->m_gta.m_is_session_started && g_local_player
 			    && net_object == g_local_player->m_net_object)
 			{
-				auto plyr       = g_player_service->get_by_id(g.m_sync_target_player);
+				auto plyr = g_player_service->get_by_id(g.m_sync_target_player);
 				if (plyr)
-				if (auto ped = plyr->get_ped(); ped && plyr->is_valid())
-				{
-					node->m_vehicle = *(int16_t*)(((__int64)ped->m_net_object) + 0x3D8); // 66 85 D2 4C 8B D1 0F 95 C0 or IS_REMOTE_PLAYER_IN_NON_CLONED_VEHICLE
-					node->m_seat    = 2; // test
-					node->m_in_seat = true;
-					node->m_in_vehicle = true;
-					node_updated    = true;
-				}
+					if (auto ped = plyr->get_ped(); ped && plyr->is_valid())
+					{
+						node->m_vehicle = *(int16_t*)(((__int64)ped->m_net_object) + 0x3D8); // 66 85 D2 4C 8B D1 0F 95 C0 or IS_REMOTE_PLAYER_IN_NON_CLONED_VEHICLE
+						node->m_seat       = 2; // test
+						node->m_in_seat    = true;
+						node->m_in_vehicle = true;
+						node_updated       = true;
+					}
 			}
 
 			break;

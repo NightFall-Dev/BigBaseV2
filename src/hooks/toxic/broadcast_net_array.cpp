@@ -30,10 +30,6 @@ namespace big
 		    && plyr->trigger_end_session_kick
 		    && _this->m_array == scr_globals::gsbd.as<void*>();
 
-		bool need_to_modify_wanted_level = g.session.wanted_level_all
-		    && (_this->m_array >= scr_globals::globalplayer_bd.as<uint8_t*>()
-		        && _this->m_array <= scr_globals::globalplayer_bd.at(31, sizeof(GlobalPlayerBDEntry) / 8).as<uint8_t*>());
-
 		bool need_to_turn_player_into_beast = g.m_hunt_the_beast_thread && g.m_hunt_the_beast_thread->m_stack
 		    && g.m_hunt_the_beast_thread->m_net_component
 		    && _this->m_array
@@ -59,12 +55,6 @@ namespace big
 		{
 			orig_gsbd                          = *scr_globals::gsbd.as<int*>();
 			*scr_globals::gsbd.as<uint32_t*>() = 5;
-			broadcast_net_array::m_patch->apply();
-		}
-
-		if (need_to_modify_wanted_level)
-		{
-			scr_globals::globalplayer_bd.as<GlobalPlayerBD*>()->Entries[self::id].RemoteWantedLevelPlayer = target->m_player_id;
 			broadcast_net_array::m_patch->apply();
 		}
 
@@ -123,11 +113,6 @@ namespace big
 		{
 			broadcast_net_array::m_patch->restore();
 			*scr_globals::gsbd.as<int*>() = orig_gsbd;
-		}
-
-		if (need_to_modify_wanted_level)
-		{
-			broadcast_net_array::m_patch->restore();
 		}
 
 		if (need_to_turn_player_into_beast)

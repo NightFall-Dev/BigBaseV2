@@ -153,10 +153,6 @@ namespace big
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		ImGui::Checkbox("OFF_THE_RADAR"_T.data(), &g.session.off_radar_all);
-		ImGui::Checkbox("NEVER_WANTED"_T.data(), &g.session.never_wanted_all);
-		ImGui::Checkbox("SEMI_GODMODE"_T.data(), &g.session.semi_godmode_all);
-		ImGui::Checkbox("VIEW_NET_SESSION_FIX_VEHICLE"_T.data(), &g.session.vehicle_fix_all);
 		components::command_checkbox<"harass">();
 		ImGui::Checkbox("SPAM_KILLFEED"_T.data(), &g.session.spam_killfeed);
 		ImGui::EndGroup();

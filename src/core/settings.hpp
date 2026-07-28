@@ -432,11 +432,6 @@ namespace big
 			std::uint64_t original_host_token = 0;
 			bool join_queued = false;
 			rage::rlSessionInfo info;
-			bool never_wanted_all = false;
-			bool off_radar_all    = false;
-			bool semi_godmode_all = false;
-			bool wanted_level_all = false;
-			bool vehicle_fix_all  = false;
 			bool harass_players   = false;
 			bool spam_killfeed    = false;
 

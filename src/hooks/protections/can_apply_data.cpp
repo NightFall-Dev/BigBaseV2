@@ -714,6 +714,10 @@ namespace big
 			LOG_FIELD(CPlayerExtendedGameStateNode, waypoint_entity);
 			LOG_FIELD(CPlayerExtendedGameStateNode, has_active_waypoint);
 			LOG_FIELD(CPlayerExtendedGameStateNode, owns_waypoint);
+			LOG_FIELD(CPlayerExtendedGameStateNode, unk4);
+			LOG_FIELD(CPlayerExtendedGameStateNode, unk5);
+			LOG_FIELD(CPlayerExtendedGameStateNode, has_waypoint_data);
+			LOG_FIELD(CPlayerExtendedGameStateNode, is_waypoint_set);
 			break;
 		case sync_node_id("CPlayerGameStateDataNode"):
 			LOG_FIELD(CPlayerGameStateDataNode, m_player_state);
