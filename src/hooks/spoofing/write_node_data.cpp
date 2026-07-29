@@ -116,7 +116,6 @@ namespace big
 			{
 				node->m_free_cam_pos_x += 50.0f;
 				node->m_free_cam_pos_y -= 50.0f;
-				node->m_camera_x -= 50.0f;
 				node_updated = true;
 			}
 			break;
@@ -286,7 +285,7 @@ namespace big
 			break;
 		}
 		}
-		
+
 		if (node_updated)
 		{
 			*buffer = original_buffer;

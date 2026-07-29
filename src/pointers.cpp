@@ -3,7 +3,7 @@
 #include "gta_pointers_layout_info.hpp"
 #include "sc_pointers_layout_info.hpp"
 
-#define GTA_VERSION_TARGET "1.69-3337"
+#define GTA_VERSION_TARGET "1.69-3351"
 
 namespace big
 {
@@ -582,6 +582,7 @@ namespace big
                 g_pointers->m_gta.m_start_get_session_by_gamer_handle = ptr.add(1).rip().as<functions::start_get_session_by_gamer_handle>();
             }
         },
+        #if 0
         // Start Matchmaking Find Sessions
         {
             "SMFS",
@@ -591,13 +592,14 @@ namespace big
                 g_pointers->m_gta.m_start_matchmaking_find_sessions = ptr.add(6).rip().as<functions::start_matchmaking_find_sessions>();
             }
         },
+        #endif
         // Join Session By Info
         {
             "JSBI",
-            "E8 ? ? ? ? 0F B6 CB 84 C0 41 0F 44 CD",
+            "89 6C 24 28 4C 89 74 24 20 E8 ? ? ? ? EB 02 32 C0 48 8B 5C 24 40",
             [](memory::handle ptr)
             {
-                g_pointers->m_gta.m_join_session_by_info = ptr.add(1).rip().as<functions::join_session_by_info>();
+                g_pointers->m_gta.m_join_session_by_info = ptr.add(10).rip().as<functions::join_session_by_info>();
             }
         },
         // Invite Player By Gamer Handle
@@ -1963,19 +1965,10 @@ namespace big
         // Network Can Access Multiplayer
         {
             "NCAM",
-            "E8 ? ? ? ? 8B 54 24 30 89 13",
+            "E9 26 01 00 00 33 D2 8B CB",
             [](memory::handle ptr)
             {
-                g_pointers->m_gta.m_network_can_access_multiplayer = ptr.add(1).rip().as<PVOID>();
-            }
-        },
-        // Send Clone Create
-        {
-            "SCC",
-            "48 8B 02 4D 8B F8",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_send_clone_create = ptr.sub(0x1C).as<PVOID>();
+                g_pointers->m_gta.m_network_can_access_multiplayer = ptr.add(10).rip().as<PVOID>();
             }
         }
         >(); // don't leave a trailing comma at the end
@@ -2087,6 +2080,9 @@ namespace big
 		g_pointers = this;
 
 		const auto mem_region = memory::module("GTA5.exe");
+
+        // TODO: this is far from ideal, but it is impossible to find a signature for this anymore
+		g_pointers->m_gta.m_start_matchmaking_find_sessions = mem_region.begin().add(0x148626C).as<functions::start_matchmaking_find_sessions>();
 
 		constexpr auto gta_batch_and_hash = pointers::get_gta_batch();
 		constexpr cstxpr_str gta_batch_name{"GTA5"};
