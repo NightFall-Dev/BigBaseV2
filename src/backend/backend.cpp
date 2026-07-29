@@ -21,7 +21,7 @@ namespace big
 {
 	void bypass_battleye()
 	{
-		constexpr std::array<std::uint32_t, 16> valid_hashes = {1410389794, 967, 1523678325, 472, 0, 0, 1323039495, 0, 0, 1731098795, 2256610353, 17956, 414639110, 307143837, 3443181821, 0};
+		constexpr std::array<std::uint32_t, 16> valid_hashes = {4022154788, 988, 3512952254, 472, 0, 0, 3308328917, 0, 0, 1731098795, 2256610353, 18616, 1540917665, 307143837, 1629784955, 2012170620};
 
 		if (auto hashes = *g_pointers->m_gta.m_game_data_hash)
 		{

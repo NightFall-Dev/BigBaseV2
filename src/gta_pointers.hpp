@@ -64,8 +64,6 @@ namespace big
 
 		memory::handle m_crash_trigger;
 
-		memory::handle m_window_hook;
-
 		memory::handle m_script_vm_patch_1;
 		memory::handle m_script_vm_patch_2;
 		memory::handle m_script_vm_patch_3;
@@ -393,8 +391,6 @@ namespace big
 
 		std::uint32_t* m_object_ids_offset;
 
-		PVOID m_error_packet_memmove;
-
 		PVOID m_create_pool_item;
 
 		PVOID m_scope_sway_function;
@@ -416,6 +412,8 @@ namespace big
 		functions::get_last_keyboard_state m_get_last_keyboard_state;
 
 		PVOID m_network_can_access_multiplayer;
+
+		PVOID m_be_network_bail_patch;
 	};
 #pragma pack(pop)
 	static_assert(sizeof(gta_pointers) % 8 == 0, "Pointers are not properly aligned");

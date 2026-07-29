@@ -3,7 +3,7 @@
 #include "gta_pointers_layout_info.hpp"
 #include "sc_pointers_layout_info.hpp"
 
-#define GTA_VERSION_TARGET "1.69-3351"
+#define GTA_VERSION_TARGET "1.70-3411"
 
 namespace big
 {
@@ -500,7 +500,7 @@ namespace big
         // Reset Network Complaints
         {
             "RENC",
-            "E8 ? ? ? ? 8B 8B ? ? ? ? 03 CF",
+            "E8 ? ? ? ? 83 BB 70 10 00 00 00",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_reset_network_complaints = ptr.add(1).rip().as<functions::reset_network_complaints>();
@@ -582,17 +582,15 @@ namespace big
                 g_pointers->m_gta.m_start_get_session_by_gamer_handle = ptr.add(1).rip().as<functions::start_get_session_by_gamer_handle>();
             }
         },
-        #if 0
         // Start Matchmaking Find Sessions
         {
             "SMFS",
-            "83 ? ? ? ? E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? C7",
+            "4C 8D 83 AC 10 00 00",
             [](memory::handle ptr)
             {
-                g_pointers->m_gta.m_start_matchmaking_find_sessions = ptr.add(6).rip().as<functions::start_matchmaking_find_sessions>();
+                g_pointers->m_gta.m_start_matchmaking_find_sessions = ptr.add(8).rip().add(1).rip().as<functions::start_matchmaking_find_sessions>();
             }
         },
-        #endif
         // Join Session By Info
         {
             "JSBI",
@@ -695,7 +693,7 @@ namespace big
         // Handle Join Request
         {
             "HJR",
-            "48 8B C4 48 89 58 08 4C 89 48 20 4C 89 40 18 48 89 50 10 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 45 33 F6",
+            "48 8B C4 48 89 58 08 4C 89 48 20 4C 89 40 18 48 89 50 10 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 A8",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_handle_join_request = ptr.as<PVOID>();
@@ -704,7 +702,7 @@ namespace big
         // Write Join Response Data
         {
             "WJRD",
-            "E8 ? ? ? ? 84 C0 74 07 40 84 FF 41 0F 95 C6",
+            "E8 ? ? ? ? 41 8B DF 84 C0 74 06",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_write_join_response_data = ptr.add(1).rip().as<functions::write_join_response_data>();
@@ -740,7 +738,7 @@ namespace big
         // Serialize Join Request Message
         {
             "SJRM",
-            "E8 ? ? ? ? 84 C0 0F 84 9B 00 00 00 49 8D 8F 48 11 00 00",
+            "E8 ? ? ? ? 84 C0 0F 84 9B 00 00 00 49 8D 8F 50 11 00 00",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_serialize_join_request_message = ptr.add(1).rip().as<PVOID>();
@@ -776,7 +774,7 @@ namespace big
         // Request Control
         {
             "RC",
-            "E8 ? ? ? ? EB 3E 48 8B D3",
+            "E8 ? ? ? ? EB 50 48 8B D3",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_request_control = ptr.add(1).rip().as<functions::request_control>();
@@ -803,7 +801,7 @@ namespace big
         // Handle Remove Gamer Command
         {
             "HRGC",
-            "74 74 33 FF",
+            "74 74 33 FF 45 33 F6",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_handle_remove_gamer_cmd = ptr.sub(0x3B).as<functions::handle_remove_gamer_cmd>();
@@ -857,7 +855,7 @@ namespace big
         // Invalid Decal Crash
         {
             "IDC",
-            "E8 ? ? ? ? 8B 9C 24 B8 00 00 00 4C 8B AC 24 A8 00 00 00",
+            "E8 ? ? ? ? 8B AC 24 D0 00 00 00 48 8B 4C 24 38",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_invalid_decal_crash = ptr.add(1).rip().as<PVOID>();
@@ -983,7 +981,7 @@ namespace big
         // Prepare Metric For Sending
         {
             "PMFS",
-            "48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 41 56 48 83 EC 30 49 8B E8 4C 8D 40 EC 49 8B F1 48 8B D9 40 32 FF E8",
+            "48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 41 56 48 83 EC 30 49 8B F0 4C",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_prepare_metric_for_sending = ptr.as<PVOID>();
@@ -1183,7 +1181,7 @@ namespace big
         // NetFilter Handle Message
         {
             "NHM",
-            "EB 2E 49 8D 82 ? ? ? ? 4C",
+            "EB 34 48 8D 81 ? ? ? ? 4C",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_netfilter_handle_message = ptr.sub(4).rip().as<PVOID>();
@@ -1211,7 +1209,7 @@ namespace big
         // Get Host Array Handler By Index
         {
             "GHAHBI",
-            "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 20 8A 81 8F",
+            "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 20 8A 81 97",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_get_host_array_handler_by_index = ptr.as<functions::get_host_array_handler_by_index>();
@@ -1424,7 +1422,7 @@ namespace big
         // Blame Explode
         {
             "BE",
-            "0F 85 ? ? ? ? 48 8B 05 ? ? ? ? 48 8B 48 08 E8",
+            "0F 85 EE 00 00 00 84 C0",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_blame_explode = ptr;
@@ -1549,15 +1547,6 @@ namespace big
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_get_title_caption_error_message_box = ptr.add(1).rip().as<functions::get_title_caption_error_message_box>();
-            }
-        },
-        // Disable Window Hook
-        {
-            "DT",
-            "48 83 EC 28 33 C9 FF 15 ? ? ? ? 45 33 C9",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_window_hook = ptr;
             }
         },
         // Vehicle Metadata Manager.
@@ -1801,10 +1790,10 @@ namespace big
         // Session Request Patch
         {
             "SRP",
-            "48 8B 9D 70 01 00 00 E9 FF 00 00 00",
+            "45 38 BE 48 B7 00 00 0F 85 F6 00 00 00",
             [](memory::handle ptr)
             {
-                g_pointers->m_gta.m_session_request_patch = ptr.add(0x13).as<PVOID>();
+                g_pointers->m_gta.m_session_request_patch = ptr.add(0x14).as<PVOID>();
             }
         },
         // Get Peer By Security Id
@@ -1828,7 +1817,7 @@ namespace big
         // Get DLC Hash
         {
             "GDLCH",
-            "74 0B 41 BC 10",
+            "74 0B 41 BF 10",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_dlc_manager = ptr.sub(0x11).rip().as<void**>();
@@ -1860,15 +1849,6 @@ namespace big
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_object_ids_offset = ptr.add(0xF).as<std::uint32_t*>();
-            }
-        },
-        // Error Packet Memmove
-        {
-            "EPM",
-            "49 8D 4C 24 60 44 8B C0 E8",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_error_packet_memmove = ptr.add(0x8).as<PVOID>();
             }
         },
         // Create Pool Item
@@ -1965,10 +1945,19 @@ namespace big
         // Network Can Access Multiplayer
         {
             "NCAM",
-            "E9 26 01 00 00 33 D2 8B CB",
+            "E9 36 01 00 00 33 D2 8B CB",
             [](memory::handle ptr)
             {
                 g_pointers->m_gta.m_network_can_access_multiplayer = ptr.add(10).rip().as<PVOID>();
+            }
+        },
+        // BattlEye Network Bail Patch
+        {
+            "BENBP",
+            "83 25 ? ? ? ? 00 89 0D ? ? ? ? 85 C9",
+            [](memory::handle ptr)
+            {
+                g_pointers->m_gta.m_be_network_bail_patch = ptr.add(17).rip().add(1).rip().as<PVOID>();
             }
         }
         >(); // don't leave a trailing comma at the end
@@ -2080,9 +2069,6 @@ namespace big
 		g_pointers = this;
 
 		const auto mem_region = memory::module("GTA5.exe");
-
-        // TODO: this is far from ideal, but it is impossible to find a signature for this anymore
-		g_pointers->m_gta.m_start_matchmaking_find_sessions = mem_region.begin().add(0x148626C).as<functions::start_matchmaking_find_sessions>();
 
 		constexpr auto gta_batch_and_hash = pointers::get_gta_batch();
 		constexpr cstxpr_str gta_batch_name{"GTA5"};

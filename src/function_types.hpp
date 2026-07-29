@@ -111,7 +111,7 @@ namespace big::functions
 	using read_bitbuffer_into_sync_tree = void (*)(rage::netSyncTree* tree, uint64_t flag, uint32_t flag2, rage::datBitBuffer* buffer, uint64_t netLogStub);
 	//Sync signatures END
 
-	using reset_network_complaints = void (*)(CNetComplaintMgr* mgr);
+	using reset_network_complaints = void (*)(CNetComplaintMgr* mgr, bool force);
 
 	using fidevice_get_device = rage::fiDevice* (*)(const char* path, bool allow_root);
 	using fipackfile_ctor     = rage::fiPackfile* (*)(rage::fiPackfile* this_);

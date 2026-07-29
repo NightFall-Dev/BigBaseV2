@@ -174,10 +174,6 @@ namespace big
 
 		ImGui::EndDisabled();
 
-		ImGui::Checkbox("Auto Kick Host", &g.session.kick_host_when_forcing_host);
-		if (ImGui::IsItemHovered())
-			ImGui::SetTooltip("Kicks the host every few minutes until you become host to avoid being kicked");
-
 		ImGui::Checkbox("FORCE_SCRIPT_HOST"_T.data(), &g.session.force_script_host);
 		if (ImGui::IsItemHovered())
 			ImGui::SetTooltip("FORCE_SCRIPT_HOST_DESC"_T.data());

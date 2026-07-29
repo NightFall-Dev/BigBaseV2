@@ -310,14 +310,6 @@ namespace big
 		{
 			send_message_to_server(token, message, size);
 
-			if (g.session.kick_host_when_forcing_host && msg[1] == 5)
-			{
-				if (auto player = g_player_service->get_by_host_token(token); player && !player->is_modder)
-				{
-					player_command::get("battleupdate"_J)->call(player, {});
-				}
-			}
-
 			break;
 		}
 		case REQUEST:

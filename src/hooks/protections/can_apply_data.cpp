@@ -1545,6 +1545,11 @@ namespace big
 			case sync_node_id("CPedGameStateDataNode"):
 			{
 				const auto game_state_node = (CPedGameStateDataNode*)(node);
+				if (game_state_node->m_weapon_hash == "WEAPON_STRICKLER"_J)
+				{
+					notify::crash_blocked(sender, "invalid weapon");
+					return true;
+				}
 				if (game_state_node->m_on_mount)
 				{
 					notify::crash_blocked(sender, "mount flag");

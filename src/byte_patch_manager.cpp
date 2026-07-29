@@ -86,6 +86,9 @@ namespace big
 		weapons::m_no_sway_patch = memory::byte_patch::make(g_pointers->m_gta.m_scope_sway_function, std::vector{0xEB}).get();
 
 		memory::byte_patch::make(g_pointers->m_gta.m_report_myself_sender, std::vector{0xC3})->apply();
+
+		// Patch BattlEye network bail
+		memory::byte_patch::make(g_pointers->m_gta.m_be_network_bail_patch, std::to_array({0xC3}))->apply();
 	}
 
 	byte_patch_manager::byte_patch_manager()
