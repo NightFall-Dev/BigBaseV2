@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     gtav_classes
     GIT_REPOSITORY https://github.com/NightFall-Dev/GTAV-Classes.git
-    GIT_TAG        742f0d7a71acfbe2365ab57dbaa8c3d7c99ae6ca
+    GIT_TAG        4b60367059ceeabe94ae8fdcec335ae2149e92ef
     GIT_PROGRESS TRUE
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
