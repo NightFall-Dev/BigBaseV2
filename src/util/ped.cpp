@@ -106,28 +106,6 @@ namespace big::ped
 		return 0;
 	}
 
-	void set_ped_random_component_variation(Ped ped)
-	{
-		constexpr auto range = [](int lower_bound, int upper_bound) -> int {
-			return std::rand() % (upper_bound - lower_bound + 1) + lower_bound;
-		};
-
-		outfit::components_t components;
-
-		for (auto& item : components.items)
-		{
-			int drawable_id_max = PED::GET_NUMBER_OF_PED_DRAWABLE_VARIATIONS(ped, item.id) - 1;
-			if (drawable_id_max == -1)
-				continue;
-			int drawable_id    = range(0, drawable_id_max);
-			int texture_id_max = PED::GET_NUMBER_OF_PED_TEXTURE_VARIATIONS(ped, item.id, drawable_id) - 1;
-			if (texture_id_max == -1)
-				continue;
-			int texture_id = range(0, texture_id_max);
-			PED::SET_PED_COMPONENT_VARIATION(ped, item.id, drawable_id, texture_id, PED::GET_PED_PALETTE_VARIATION(ped, item.id));
-		}
-	}
-
 	player_ptr get_player_from_ped(Ped ped)
 	{
 		for (auto& p : g_player_service->players())

@@ -1,4 +1,3 @@
-#include "core/data/ipls.hpp"
 #include "util/teleport.hpp"
 #include "views/view.hpp"
 
@@ -86,81 +85,5 @@ namespace big
 		components::command_button<"bringpv">();
 		ImGui::SameLine();
 		components::command_button<"pvtp">();
-
-		ImGui::SeparatorText("GUI_TAB_IPL"_T.data());
-
-		static int current_select = 0;
-		static int last_select    = -1;
-
-		ImGui::SetNextItemWidth(400);
-		if (ImGui::BeginCombo("##Ipllocation", ipls[current_select].friendly_name))
-		{
-			for (int i = 0; i < IM_ARRAYSIZE(ipls); i++)
-			{
-				bool is_selected = (i == current_select);
-				if (ImGui::Selectable(ipls[i].friendly_name, is_selected))
-				{
-					current_select = i;
-				}
-				if (is_selected)
-				{
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-		ImGui::SameLine();
-		components::button("LOAD_IPL"_T, [] 
-		{
-			// If we've changed selections, first unload previously loaded IPL, then load previously deleted IPLs
-			if (current_select != last_select)
-			{
-				// Unload previously loaded IPL of the last selection
-				// If this is our first time loading an IPL (especially the first one in the list, then don't unload anything)
-				if (last_select != -1)
-				{
-					for (auto& ipl_name_unload : ipls[last_select].ipl_names)
-					{
-						if (STREAMING::IS_IPL_ACTIVE(ipl_name_unload))
-						{
-							STREAMING::REMOVE_IPL(ipl_name_unload);
-						}
-					}
-
-					// Load previously deleted IPLs of the last selection
-					for (auto& ipl_name_load : ipls[last_select].ipl_names_remove)
-					{
-						STREAMING::REQUEST_IPL(ipl_name_load);
-					}
-				}
-
-				// Load new IPLs of the current selection
-				for (auto& ipl_name : ipls[current_select].ipl_names)
-				{
-					STREAMING::REQUEST_IPL(ipl_name);
-				}
-
-				// Remove old IPLs of the current selection to avoid conflicts
-				for (auto& ipl_name_remove : ipls[current_select].ipl_names_remove_when_load)
-				{
-					STREAMING::REMOVE_IPL(ipl_name_remove);
-				}
-
-				last_select = current_select;
-			}
-		});
-		ImGui::SameLine();
-		components::button("TP_TO_IPL"_T, [] 
-		{
-			teleport::to_coords(ipls[current_select].location);
-		});
-
-		ImGui::Spacing();
-		components::small_text("IPL_INFOS"_T);
-
-		auto ipls_data = ipls[current_select].ipl_names.size();
-
-		ImGui::Text(std::vformat("IPL_CNT"_T, std::make_format_args(ipls_data)).data());
-		ImGui::Text(std::vformat("IPL_POSITION"_T, std::make_format_args(ipls[current_select].location.x, ipls[current_select].location.y, ipls[current_select].location.z)).data());
 	}
 }

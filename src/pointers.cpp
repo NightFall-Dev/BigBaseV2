@@ -1523,15 +1523,6 @@ namespace big
                 g_pointers->m_gta.m_blip_list = ptr.add(3).rip().as<CBlipList*>();
             }
         },
-        // TimecycleKeyframeData
-        {
-            "TCYCL",
-            "48 83 EC 18 48 8B 0D",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_timecycle_keyframe_override = ptr.as<PVOID>();
-            }
-        },
         // Free Event Error
         {
             "FEE",

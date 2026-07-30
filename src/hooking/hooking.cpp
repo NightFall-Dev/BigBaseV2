@@ -118,8 +118,6 @@ namespace big
 
 		detour_hook_helper::add<hooks::send_non_physical_player_data>("SNPPD", g_pointers->m_gta.m_send_non_physical_player_data);
 
-		detour_hook_helper::add<hooks::update_timecycle_keyframe_data>("UTCKD", g_pointers->m_gta.m_timecycle_keyframe_override);
-
 		detour_hook_helper::add<hooks::allocate_memory_reliable>("AMR", g_pointers->m_gta.m_allocate_memory_reliable);
 
 		detour_hook_helper::add<hooks::render_ped>("RP", g_pointers->m_gta.m_render_ped);

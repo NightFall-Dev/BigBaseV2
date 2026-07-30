@@ -161,8 +161,6 @@ namespace big
 
 		static bool send_non_physical_player_data(CNetGamePlayer* player, __int64 message, int flags, void* a4, CNetGamePlayer* a5);
 
-		static void update_timecycle_keyframe_data(int64_t timecycleManager, TimecycleKeyframeData* timecycleKeyframeData);
-
 		static void* allocate_memory_reliable(rage::netConnection* cxn, int required_memory);
 
 		static void* render_ped(__int64 renderer, CPed* ped, __int64 a3, __int64 a4);

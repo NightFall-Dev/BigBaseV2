@@ -24,7 +24,6 @@ namespace big
 		static void player_spectate();
 
 		static void self_wanted();
-		static void self_persist_outfit();
 
 		static void session_pop_multiplier_areas();
 		static void session_force_thunder();

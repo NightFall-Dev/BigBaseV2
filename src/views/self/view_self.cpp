@@ -1,5 +1,4 @@
 #include "core/data/hud_component_names.hpp"
-#include "core/data/ptfx_effects.hpp"
 #include "fiber_pool.hpp"
 #include "views/view.hpp"
 #include "core/scr_globals.hpp"
@@ -140,42 +139,6 @@ namespace big
 				{
 					g.context_menu.bounding_box_color = ImGui::ColorConvertFloat4ToU32(bounding_box_color);
 				}
-			}
-		});
-
-		components::command_checkbox<"ptfx">();
-		components::options_modal("VIEW_SELF_PTFX"_T.data(), [] {
-			ImGui::SliderFloat("VIEW_SELF_PTFX_SIZE"_T.data(), &g.self.ptfx_effects.size, 0.1f, 2.f);
-			if (ImGui::BeginCombo("VIEW_SELF_ASSET"_T.data(), ptfx_named[g.self.ptfx_effects.select].friendly_name))
-			{
-				for (int i = 0; i < IM_ARRAYSIZE(ptfx_named); i++)
-				{
-					if (ImGui::Selectable(ptfx_named[i].friendly_name, ptfx_named[i].asset_name == g.self.ptfx_effects.asset))
-					{
-						g.self.ptfx_effects.asset  = ptfx_named[i].asset_name; // Update our asset name to be used
-						g.self.ptfx_effects.select = i;
-						g.self.ptfx_effects.effect = ptfx_named[i].effect_names.at(0); // set the effect to the first instance in the vector
-					}
-
-					if (ptfx_named[i].asset_name == g.self.ptfx_effects.asset)
-						ImGui::SetItemDefaultFocus();
-				}
-
-				ImGui::EndCombo();
-			}
-
-			if (ImGui::BeginCombo("VIEW_SELF_EFFECT"_T.data(), g.self.ptfx_effects.effect))
-			{
-				for (const auto& ptfx_type : ptfx_named[g.self.ptfx_effects.select].effect_names)
-				{
-					if (ImGui::Selectable(ptfx_type, ptfx_type == g.self.ptfx_effects.effect))
-						g.self.ptfx_effects.effect = ptfx_type; // Update our ptfx effect
-
-					if (ptfx_type == g.self.ptfx_effects.effect)
-						ImGui::SetItemDefaultFocus();
-				}
-
-				ImGui::EndCombo();
 			}
 		});
 

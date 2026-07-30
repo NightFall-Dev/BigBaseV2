@@ -55,7 +55,6 @@ namespace big
 		while (g_running)
 		{
 			looped::self_wanted();
-			looped::self_persist_outfit();
 
 			script::get_current()->yield();
 		}

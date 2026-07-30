@@ -297,7 +297,6 @@ namespace big
 		CVehicleDriveByMetadataMgr* m_driveby_metadata_mgr{};
 
 		CBlipList* m_blip_list;
-		PVOID m_timecycle_keyframe_override;
 
 		PVOID m_allocate_memory_reliable;
 		functions::connection_manager_try_free_memory m_connection_manager_try_free_memory;

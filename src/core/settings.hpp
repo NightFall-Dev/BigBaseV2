@@ -3,7 +3,6 @@
 #include "backend/reactions/reaction.hpp"
 #include "core/data/hud_colors.hpp"
 #include "core/data/language_codes.hpp"
-#include "core/data/ptfx_effects.hpp"
 #include "enums.hpp"
 #include "file_manager.hpp"
 
@@ -317,24 +316,6 @@ namespace big
 
 		struct self
 		{
-			struct ptfx_effects
-			{
-				bool show          = false;
-				float size         = 0.2f;
-				int select         = 0;
-				const char* asset  = "scr_agencyheist";
-				const char* effect = "scr_fbi_mop_drips";
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(ptfx_effects, show, size)
-			} ptfx_effects{};
-
-			struct ipls
-			{
-				int select = 0;
-
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(ipls, select)
-			} ipls{};
-
 			bool clean_player                 = false;
 			bool never_wanted                 = false;
 			bool force_wanted_level           = false;
@@ -369,12 +350,10 @@ namespace big
 			float healthregenrate             = 1.0f;
 			bool custom_weapon_stop           = true;
 			bool prompt_ambient_animations    = false;
-			std::string persist_outfit        = "";
-			bool persist_outfits_mis          = false;
 			bool interaction_menu_freedom     = false;
 			std::atomic_uint_fast8_t typing   = 0;
 
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, ipls, ptfx_effects, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, custom_weapon_stop, prompt_ambient_animations, persist_outfit, persist_outfits_mis, interaction_menu_freedom)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, custom_weapon_stop, prompt_ambient_animations, interaction_menu_freedom)
 
 		} self{};
 
@@ -571,9 +550,8 @@ namespace big
 				bool spawn_invincible  = false;
 				bool spawn_invisible   = false;
 				bool spawn_as_attacker = false;
-				bool randomize_outfit  = false;
 
-				NLOHMANN_DEFINE_TYPE_INTRUSIVE(spawn_ped, preview_ped, spawn_invincible, spawn_invisible, spawn_as_attacker, randomize_outfit)
+				NLOHMANN_DEFINE_TYPE_INTRUSIVE(spawn_ped, preview_ped, spawn_invincible, spawn_invisible, spawn_as_attacker)
 			} spawn_ped{};
 
 			struct custom_time
@@ -1060,27 +1038,13 @@ namespace big
 			NLOHMANN_DEFINE_TYPE_INTRUSIVE(persist_weapons, enabled, weapon_loadout_file)
 		} persist_weapons{};
 
-		struct vfx
-		{
-			bool enable_custom_sky_color = false;
-
-			float azimuth_east[4]       = {1, 0, 0, 0};
-			float azimuth_west[4]       = {1, 0, 0, 0};
-			float azimuth_transition[4] = {1, 0, 0, 0};
-			float zenith[4]             = {1, 0, 0, 0};
-
-			float stars_intensity = 1;
-
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(vfx, enable_custom_sky_color, azimuth_east, azimuth_west, azimuth_transition, zenith, stars_intensity)
-		} vfx{};
-
 		struct cmd
 		{
 			std::deque<std::string> command_history;
 			NLOHMANN_DEFINE_TYPE_INTRUSIVE(cmd, command_history)
 		} cmd{};
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(menu_settings, debug, tunables, notifications, player, player_db, protections, self, session, settings, spawn_vehicle, clone_pv, persist_car, spoofing, vehicle, weapons, window, context_menu, esp, session_browser, ugc, reactions, world, stat_editor, lua, persist_weapons, vfx, cmd)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(menu_settings, debug, tunables, notifications, player, player_db, protections, self, session, settings, spawn_vehicle, clone_pv, persist_car, spoofing, vehicle, weapons, window, context_menu, esp, session_browser, ugc, reactions, world, stat_editor, lua, persist_weapons, cmd)
 	};
 
 	inline auto g = menu_settings();

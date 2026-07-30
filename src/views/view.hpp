@@ -22,8 +22,6 @@ namespace big
 	public:
 		static void active_view();
 		static void esp_settings();
-		static void outfit_editor();
-		static void outfit_slots();
 		static void stat_editor();
 		static void gui_settings();
 		static void hotkey_settings();
@@ -78,7 +76,6 @@ namespace big
 		static void xml_maps();
 		static void gta_cache();
 		static void lua_scripts();
-		static void vfx();
 
 		static void onboarding();
 

@@ -3,7 +3,6 @@
 #include "gta/enums.hpp"
 #include "math.hpp"
 #include "natives.hpp"
-#include "outfit.hpp"
 #include "pointers.hpp"
 #include "services/players/player_service.hpp"
 #include "script.hpp"
@@ -451,7 +450,6 @@ namespace big::ped
 	void steal_identity(const Ped target);
 	void kill_ped(const Ped ped);
 	Ped spawn(ePedType pedType, Hash hash, Ped clone, Vector3 location, float heading, bool is_networked = true);
-	void set_ped_random_component_variation(Ped ped);
 	player_ptr get_player_from_ped(Ped ped);
 	bool load_animation_dict(const char* dict);
 	void ped_play_animation(Ped ped, const std::string_view& animDict, const std::string_view& animName, float speed = 4.f, float speedMultiplier = -4.f, int duration = -1, int flag = 0, float playbackRate = 0, bool lockPos = false, Vector3 pos = {}, Vector3 rot = {}, int ik_flags = 0);
