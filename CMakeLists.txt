@@ -16,6 +16,7 @@ include(cmake/git.cmake)
 # Fetch modules
 message("\nFetching modules")
 include(cmake/asmjit.cmake)
+include(cmake/fmt.cmake)
 include(cmake/minhook.cmake)
 include(cmake/async-logger.cmake)
 include(cmake/pugixml.cmake)
@@ -69,9 +70,13 @@ target_link_libraries(YimMenu PRIVATE pugixml minhook AsyncLogger dbghelp imgui 
 set_property(TARGET YimMenu PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
 add_compile_definitions(YimMenu 
+    "NDEBUG"
+    "_WINDOWS"
     "_CRT_SECURE_NO_WARNINGS"
     "NOMINMAX"
     "WIN32_LEAN_AND_MEAN"
+	"WINVER=0x0A00"
+	"_WIN32_WINNT=0x0A00"
 )
 
 # Optimizations
@@ -82,7 +87,7 @@ if(MSVC)
 
       set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
           "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /O2 /Oi /Ot /Oy /Ob3 /sdl- /GL /GF /GS- /Gw")
-      string(REPLACE "/Ob1" "/Ob3" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+      string(REPLACE "/Ob1" "/Ob2" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
     else()
         add_compile_definitions(YIM_DEV)
     endif()

@@ -64,6 +64,8 @@ namespace big
 
 	void orbital_drone::destroy()
 	{
+		HUD::SET_BIGMAP_ACTIVE(false, false);
+		
 		m_initialized = false;
 
 		Entity self = self::ped;

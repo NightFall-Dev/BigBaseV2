@@ -382,7 +382,7 @@ namespace big
 			bool chat_commands                                   = false;
 			CommandAccessLevel chat_command_default_access_level = CommandAccessLevel::FRIENDLY;
 
-			bool kick_host_to_stay_in_session = true;
+			bool kick_host_to_stay_in_session = false;
 
 			bool explosion_karma = false;
 			bool damage_karma    = false;

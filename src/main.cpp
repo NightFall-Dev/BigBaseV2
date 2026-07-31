@@ -35,6 +35,8 @@
 #include "util/is_proton.hpp"
 #include "version.hpp"
 
+#include <Psapi.h>
+
 namespace big
 {
 	std::string ReadRegistryKeySZ(HKEY hKeyParent, std::string subkey, std::string valueName)
@@ -90,6 +92,29 @@ namespace big
 		GlobalFree(UTF16);
 		return UTF8;
 	}
+
+	HMODULE CheckForFSL()
+	{
+		HMODULE modules[1024];
+		DWORD needed;
+
+		if (!EnumProcessModules(GetCurrentProcess(), modules, sizeof(modules), &needed))
+		{
+			return nullptr;
+		}
+
+		size_t count = needed / sizeof(HMODULE);
+
+		for (size_t i = 0; i < count; ++i)
+		{
+			if (GetProcAddress(modules[i], "LawnchairGetVersion"))
+			{
+				return modules[i];
+			}
+		}
+
+		return nullptr;
+	}
 }
 
 BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
@@ -98,7 +123,16 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 	if (reason == DLL_PROCESS_ATTACH)
 	{
 		DisableThreadLibraryCalls(hmod);
-		g_hmodule     = hmod;
+		g_hmodule = hmod;
+
+		std::wstring module_path(MAX_PATH, L'\0');
+		const auto module_path_size = GetModuleFileNameW(hmod, module_path.data(), static_cast<DWORD>(module_path.size()));
+		if (module_path_size > 0)
+			module_path.resize(module_path_size);
+		else
+			module_path.clear();
+
+		g_file_manager.set_module_path(std::filesystem::path{module_path});
 		g_main_thread = CreateThread(
 		    nullptr,
 		    0,
@@ -109,8 +143,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 			    while (!FindWindow("grcWindow", nullptr))
 				    std::this_thread::sleep_for(100ms);
 
-			    std::filesystem::path base_dir = std::getenv("appdata");
-			    base_dir /= "YimMenu";
+			    std::filesystem::path base_dir = g_file_manager.get_module_dir();
 			    g_file_manager.init(base_dir);
 
 			    g.init(g_file_manager.get_project_file("./settings.json"));
@@ -146,12 +179,19 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 			    if (!*g_pointers->m_gta.m_anticheat_initialized_hash)
 			    {
 				    *g_pointers->m_gta.m_anticheat_initialized_hash = new rage::Obf32; // this doesn't get freed so we don't have to use the game allocator
-				    (*g_pointers->m_gta.m_anticheat_initialized_hash)->setData(0x124EA49D);
 			    }
-			    else
-			    {
-				    (*g_pointers->m_gta.m_anticheat_initialized_hash)->setData(0x124EA49D);
-			    }
+				(*g_pointers->m_gta.m_anticheat_initialized_hash)->setData(0x124EA49D);
+
+				if (HMODULE FSL = CheckForFSL())
+				{
+				    LOGF(INFO, "FSL Version: {}", reinterpret_cast<int (*)()>(GetProcAddress(FSL, "LawnchairGetVersion"))());
+				    LOGF(INFO, "FSL Local Saves: {}", reinterpret_cast<bool (*)()>(GetProcAddress(FSL, "LawnchairIsProvidingLocalSaves"))() ? "Enabled" : "Disabled");
+				    LOGF(INFO, "FSL BE Bypass: {}", reinterpret_cast<bool (*)()>(GetProcAddress(FSL, "LawnchairIsProvidingBattlEyeBypass"))() ? "Enabled" : "Disabled");
+				}
+				else
+				{
+				    LOGF(FATAL, "YimMenu requires FSL to be loaded. Please get it from UnknownCheats.me");
+				}
 
 			    auto byte_patch_manager_instance = std::make_unique<byte_patch_manager>();
 			    LOG(INFO) << "Byte Patch Manager initialized.";

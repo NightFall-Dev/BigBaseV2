@@ -28,4 +28,14 @@ namespace big::string_conversions
 
 		return output;
 	}
+	
+	inline std::string format_n(int64_t value)
+	{
+		std::string formatted = std::to_string(value);
+		for (int i = formatted.size() - 3; i > 0; i -= 3)
+		{
+			formatted.insert(i, ",");
+		}
+		return formatted;
+	}
 }

@@ -4,6 +4,7 @@
 #include "services/gta_data/gta_data_service.hpp"
 #include "services/player_database/player_database_service.hpp"
 #include "util/session.hpp"
+#include "util/string_conversions.hpp"
 #include "views/view.hpp"
 
 #include <network/netConnection.hpp>
@@ -69,19 +70,26 @@ namespace big
 				    auto& stats     = scr_globals::gpbd_fm_1.as<GPBD_FM*>()->Entries[id].PlayerStats;
 				    auto& boss_goon = scr_globals::gpbd_fm_3.as<GPBD_FM_3*>()->Entries[id].BossGoon;
 
-				    const auto money  = reinterpret_cast<uint64_t&>(stats.Money);
+					const auto money  = reinterpret_cast<uint64_t&>(stats.Money);
 				    const auto wallet = reinterpret_cast<uint64_t&>(stats.WalletBalance);
+				    int64_t format_money = money;
+					int64_t format_wallet = wallet;
+					int64_t format_bank_money = money - wallet;
+					auto player_money = string_conversions::format_n(format_money);
+					auto player_wallet = string_conversions::format_n(format_wallet);
+					auto bank_money = string_conversions::format_n(format_bank_money);
+					auto rPt = string_conversions::format_n(stats.RP);
 
 				    if (boss_goon.Language >= 0 && boss_goon.Language < 13)
 					    ImGui::Text("PLAYER_INFO_LANGUAGE"_T.data(), languages.at((eGameLanguage)boss_goon.Language).data());
 
 				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_CEO_NAME"_T, boss_goon.GangName.Data).c_str());
 				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_MC_NAME"_T, boss_goon.ClubhouseName.Data).c_str());
-				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_WALLET"_T, wallet).c_str());
-				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_BANK"_T, money - wallet).c_str());
-				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_TOTAL_MONEY"_T, money).c_str());
+				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_WALLET"_T, player_wallet).c_str());// Format money
+				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_BANK"_T, bank_money).c_str());// Format money
+				    ImGui::Text(std::format("{}: {}", "PLAYER_INFO_TOTAL_MONEY"_T, player_money).c_str());// Format money
 				    ImGui::Text(
-				        std::format("{}: {} ({} {})", "PLAYER_INFO_RANK"_T, stats.Rank, "PLAYER_INFO_RANK_RP"_T, stats.RP)
+				        std::format("{}: {} ({} {})", "PLAYER_INFO_RANK"_T, stats.Rank, "PLAYER_INFO_RANK_RP"_T, rPt)
 				            .c_str());
 				    ImGui::Text(std::format("{}: {} ({} {})", "VIEW_PLAYER_INFO_HEALTH"_T, ped_health, "VIEW_PLAYER_INFO_MAXHEALTH"_T, ped_maxhealth)
 				                    .c_str());

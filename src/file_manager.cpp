@@ -15,6 +15,22 @@ namespace big
 		return m_base_dir;
 	}
 
+	void file_manager::set_module_path(const std::filesystem::path& module_path)
+	{
+		m_module_path = module_path;
+		m_module_dir = module_path.parent_path();
+	}
+
+	const std::filesystem::path& file_manager::get_module_path() const
+	{
+		return m_module_path;
+	}
+
+	const std::filesystem::path& file_manager::get_module_dir() const
+	{
+		return m_module_dir;
+	}
+
 	file file_manager::get_project_file(std::filesystem::path file_path)
 	{
 		if (file_path.is_absolute())

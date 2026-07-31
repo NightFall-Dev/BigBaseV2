@@ -10,9 +10,13 @@ namespace big
 
 		ImGui::SeparatorText("MERRYWEATHER"_T.data());
 
-		components::button("MW_AMMO_DROP"_T, [] {
-			mobile::merry_weather::request_ammo_drop();
-		});
+		// Converted into command_button
+		// Are sent directly to scr_globals via command
+		//components::button("MW_AMMO_DROP"_T, [] {
+		//	mobile::merry_weather::request_ammo_drop();
+		//});
+		
+		components::command_button<"ammodrop">();
 
 		components::button("MW_HELI_PICKUP"_T, [] {
 			mobile::merry_weather::request_helicopter_pickup();

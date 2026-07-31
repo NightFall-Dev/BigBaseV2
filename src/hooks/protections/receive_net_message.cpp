@@ -290,7 +290,7 @@ namespace big
 
 		if (!get_msg_type(msgType, buffer))
 		{
-			LOGF(stream::net_messages, WARNING, "Received message that we cannot parse from cxn id {}", event->m_connection_identifier);
+			LOGF(stream::net_messages, WARNING, "Received message that we cannot parse from cxn id {} size={}", event->m_connection_identifier, message_size);
 			return g_hooking->get_original<hooks::receive_net_message>()(a1, net_cxn_mgr, event);
 		}
 
@@ -705,7 +705,9 @@ namespace big
 			}
 
 			if (player->is_spammer)
+			{
 				return true;
+			}
 
 			if (auto spam_reason = chat::is_text_spam(message, player))
 			{

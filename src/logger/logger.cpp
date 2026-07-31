@@ -129,7 +129,7 @@ namespace big
 
 		const auto color = get_color(msg->Level());
 
-		const auto timestamp = std::format("{0:%H:%M:%S}", msg->Timestamp());
+		const auto timestamp = std::format("{0:%I:%M:%S %p}", msg->Timestamp());
 		const auto& location = msg->Location();
 		const auto level     = msg->Level();
 		const auto stream    = msg->Stream();
@@ -153,7 +153,7 @@ namespace big
 
 		const auto color = get_color(msg->Level());
 
-		const auto timestamp = std::format("{0:%H:%M:%S}", msg->Timestamp());
+		const auto timestamp = std::format("{0:%I:%M:%S %p}", msg->Timestamp());
 		const auto& location = msg->Location();
 		const auto level     = msg->Level();
 		const auto stream    = msg->Stream();
@@ -173,7 +173,7 @@ namespace big
 		if (!m_file_out.is_open())
 			return;
 
-		const auto timestamp = std::format("{0:%H:%M:%S}", msg->Timestamp());
+		const auto timestamp = std::format("{0:%I:%M:%S %p}", msg->Timestamp());
 		const auto& location = msg->Location();
 		const auto level     = msg->Level();
 		const auto stream    = msg->Stream();

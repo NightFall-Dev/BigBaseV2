@@ -122,23 +122,22 @@ namespace big
 
 				if (g.session_browser.sort_method != 0)
 				{
-					std::qsort(m_found_sessions, m_num_sessions_found, sizeof(session), [](const void* a1, const void* a2) -> int {
-						std::strong_ordering result;
+					std::sort(m_found_sessions, m_found_sessions + m_num_sessions_found, [](const session& a1, const session& a2) {
+						std::strong_ordering result = std::strong_ordering::equal;
 
 						if (g.session_browser.sort_method == 1)
 						{
-							result = (((session*)(a1))->attributes.player_count <=> ((session*)(a2))->attributes.player_count);
+							result = a1.attributes.player_count <=> a2.attributes.player_count;
 						}
 
 						if (result == 0)
-							return 0;
+							return false;
 
 						if (result > 0)
-							return g.session_browser.sort_direction ? -1 : 1;
+							return g.session_browser.sort_direction ? true : false;
 
 						if (result < 0)
-							return g.session_browser.sort_direction ? 1 : -1;
-
+							return g.session_browser.sort_direction ? false : true;
 
 						std::unreachable();
 					});
@@ -327,9 +326,13 @@ namespace big
 			}
 			patch_matchmaking_attributes(&msg->m_detail.m_session_config.m_matchmaking_attributes);
 		}
-		else
+		else if (msg->m_status == 3)
 		{
 			LOG(WARNING) << __FUNCTION__ ": sending fail code " << msg->m_status;
+		}
+		else
+		{
+			LOG(FATAL) << __FUNCTION__ ": sending unk code " << msg->m_status;
 		}
 	}
 }

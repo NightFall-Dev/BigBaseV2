@@ -752,8 +752,8 @@ namespace big
 
 				if (type == 0 || initial_length < min_length || max_length < min_length || max_length < 0.0f)
 				{
-					LOGF(stream::net_events, WARNING, "{} sent a SCRIPT_WORLD_STATE_EVENT of type Rope that would crash the game. Script Hash: {:X}, Type: {}, Initial Length: {}, Min Length: {}, Max Length: {}", plyr->get_name(), id.m_hash, type, initial_length, min_length, max_length);
 					notify::crash_blocked(source_player, "rope");
+					LOGF(stream::net_events, WARNING, "{} sent a SCRIPT_WORLD_STATE_EVENT of type Rope that would crash the game. Script Hash: {:X}, Type: {}, Initial Length: {}, Min Length: {}, Max Length: {}", plyr->get_name(), id.m_hash, type, initial_length, min_length, max_length);
 					g_pointers->m_gta.m_send_event_ack(event_manager, source_player, target_player, event_index, event_handled_bitset);
 					return;
 				}

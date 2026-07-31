@@ -167,7 +167,7 @@ namespace big
 		{
 			case 12: //Hangar
 			{
-				auto hangar_id = *scr_globals::gpbd_fm_1.at(self::id, 880).at(260).at(304).as<PINT>();
+				auto hangar_id = *scr_globals::gpbd_fm_1.at(self::id, 881).at(260).at(304).as<PINT>();
 				switch (hangar_id)
 				{
 					case 1: return HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION("MP_HANGAR_1"); //LSIA Hangar 1
@@ -180,7 +180,7 @@ namespace big
 			}
 			case 13: //Facility
 			{
-				auto facility_id = *scr_globals::gpbd_fm_1.at(self::id, 880).at(260).at(311).as<PINT>();
+				auto facility_id = *scr_globals::gpbd_fm_1.at(self::id, 881).at(260).at(311).as<PINT>();
 				switch (facility_id)
 				{
 					case 1: return HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION("MP_DBASE_1"); //Grand Senora Desert Facility
@@ -266,6 +266,10 @@ namespace big
 		m_vehicle_idx(vehicle_idx)
 	{
 		m_plate          = m_vehicle_idx.at(1).as<char*>();
+		if (m_plate == nullptr || m_plate[0] == '\0')
+		{
+			m_plate = "<NO PLATE NUM>";
+		}
 		m_hash           = *m_vehicle_idx.at(66).as<Hash*>();
 		set_garage();
 

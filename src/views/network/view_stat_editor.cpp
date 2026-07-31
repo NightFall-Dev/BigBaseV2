@@ -152,7 +152,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_int_value, sizeof(stat_int_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.int_value = stat_int_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_int(stat_int_text, stat_int_value);
 				});
 				ImGui::SameLine();
@@ -168,7 +168,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_bool_value, sizeof(stat_bool_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.bool_value = stat_bool_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_bool(stat_bool_text, stat_bool_value);
 				});
 				ImGui::SameLine();
@@ -184,7 +184,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_float_value, sizeof(stat_float_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.float_value = stat_float_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_float(stat_float_text, stat_float_value);
 				});
 				ImGui::SameLine();
@@ -201,7 +201,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_increment_value, sizeof(stat_increment_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.increment_value = stat_increment_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_increment(stat_increment_text, stat_increment_value);
 				});
 				ImGui::SameLine();
@@ -219,7 +219,7 @@ namespace big
 				});
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("VIEW_STAT_EDITOR_DATE_TOOLTIP"_T.data());
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_date(stat_date_text, stat_date_value);
 				});
 				ImGui::SameLine();
@@ -235,7 +235,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_string_value, sizeof(stat_string_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.string_value = stat_string_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_string(stat_string_text, stat_string_value);
 				});
 				ImGui::SameLine();
@@ -251,7 +251,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_label_value, sizeof(stat_label_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.label_value = stat_label_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_label(stat_label_text, stat_label_value);
 				});
 				ImGui::SameLine();
@@ -265,7 +265,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, stat_user_id_value, sizeof(stat_user_id_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.stat.user_id_value = stat_user_id_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::stat_set_user_id(stat_user_id_text, stat_user_id_value);
 				});
 				ImGui::SameLine();
@@ -348,7 +348,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, packed_stat_int_value, sizeof(packed_stat_int_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.packed_stat.int_value = packed_stat_int_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::packed_stat_set_int(packed_stat_int_text, packed_stat_int_value);
 				});
 				ImGui::SameLine();
@@ -364,7 +364,7 @@ namespace big
 				components::input_text("VIEW_DEBUG_GLOBAL_VALUE"_T, packed_stat_bool_value, sizeof(packed_stat_bool_value), ImGuiInputTextFlags_None, [] {
 					g.stat_editor.packed_stat.bool_value = packed_stat_bool_value;
 				});
-				components::button("APPLY"_T, [] {
+				components::button("WRITE"_T, [] {
 					helper::packed_stat_set_bool(packed_stat_bool_text, packed_stat_bool_value);
 				});
 				ImGui::SameLine();

@@ -14,8 +14,6 @@ namespace big
 		TELEPORT,
 		CUSTOM_TELEPORT,
 		MOBILE,
-		OUTFIT_EDITOR,
-		OUTFIT_SLOTS,
 		ANIMATIONS,
 
 		VEHICLE,
@@ -31,11 +29,9 @@ namespace big
 		WORLD,
 		SPAWN_PED,
 		SQUAD_SPAWNER,
-		CREATOR,
 		TRAIN,
 		BLACKHOLE,
 		MODEL_SWAPPER,
-		VFX,
 		XML_MAPS,
 
 		NETWORK,
@@ -134,7 +130,6 @@ namespace big
 		            {
 						{TAB_DECL(SPAWN_PED), view::spawn_ped}},
 						{TAB_DECL(SQUAD_SPAWNER), view::squad_spawner}},
-						{TAB_DECL(CREATOR), view::creator}},
 						{TAB_DECL(TRAIN), view::train}},
 						{TAB_DECL(BLACKHOLE), view::blackhole}},
 						{TAB_DECL(MODEL_SWAPPER), view::model_swapper}},

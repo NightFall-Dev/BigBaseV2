@@ -28,7 +28,7 @@ jobs:
           submodules: recursive
 
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v2
+        uses: akshaybabloo/actions-setup-cmake@v2
         with:
           cmake-version: '3.20.x'
 
@@ -39,6 +39,22 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: amd64
+
+      - name: Cache build directory (Release)
+        uses: actions/cache@v4
+        if: github.event.inputs.release == 'true'
+        with:
+          path: build/x64-Release
+          key: ${{ runner.os }}-build-release-${{ hashFiles('**/src/core/settings.hpp') }}
+          restore-keys: ${{ runner.os }}-build-release-${{ hashFiles('**/src/core/settings.hpp') }}
+
+      - name: Cache build directory (Debug)
+        uses: actions/cache@v4
+        if: github.event.inputs.release != 'true'
+        with:
+          path: build/x64-Release-Dev
+          key: ${{ runner.os }}-build-debug-${{ hashFiles('**/src/core/settings.hpp') }}
+          restore-keys: ${{ runner.os }}-build-debug-${{ hashFiles('**/src/core/settings.hpp') }}
 
       - name: Generate CMake project
         if: github.event.inputs.release == 'true'

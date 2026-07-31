@@ -18,6 +18,9 @@ namespace big
 		bool init(const std::filesystem::path& base_dir);
 
 		const std::filesystem::path& get_base_dir();
+		void set_module_path(const std::filesystem::path& module_path);
+		const std::filesystem::path& get_module_path() const;
+		const std::filesystem::path& get_module_dir() const;
 
 		file get_project_file(std::filesystem::path file_path);
 
@@ -28,6 +31,8 @@ namespace big
 
 	private:
 		std::filesystem::path m_base_dir;
+		std::filesystem::path m_module_path;
+		std::filesystem::path m_module_dir;
 
 	};
 	inline auto g_file_manager = file_manager();

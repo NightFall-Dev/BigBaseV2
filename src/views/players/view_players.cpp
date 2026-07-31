@@ -109,6 +109,7 @@ namespace big
 		{
 			const auto style = ImGui::GetStyle();
 			float window_height = (
+				//ImGui::CalcTextSize("A").y + ImGui::GetStyle().ItemInnerSpacing.y * 2.0f + style.ItemSpacing.y) // button size
 				ImGui::CalcTextSize("A").y + style.FramePadding.y * 2.0f + style.ItemSpacing.y) // button size
 				* player_count // amount of players
 				+ (player_count > 1) * ((style.ItemSpacing.y * 2) + 1.f) // account for ImGui::Separator spacing

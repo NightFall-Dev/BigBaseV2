@@ -4,6 +4,17 @@
 
 namespace big
 {
+	//MW_AMMO_DROP
+	class ammo_drop : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::merry_weather::request_ammo_drop();
+		}
+	};
+	
 	class boat_pickup : command
 	{
 		using command::command;
@@ -104,6 +115,7 @@ namespace big
 		}
 	};
 
+	ammo_drop g_ammo_drop("ammodrop", "MW_AMMO_DROP", "MW_AMMO_DROP_DESC", 0);
 	boat_pickup g_boat_pickup("boatpickup", "REQUEST_BOAT", "REQUEST_BOAT_DESC", 0);
 	ballistic_armor g_ballistic_armor("ballisticarmor", "REQUEST_BALLISTIC", "REQUEST_BALLISTIC_DESC", 0);
 	request_avenger g_request_avenger("avenger", "REQUEST_AVENGER", "REQUEST_AVENGER_DESC", 0);
