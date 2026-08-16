@@ -1,5 +1,7 @@
 #include "stack_trace.hpp"
 
+#include "../file_manager.hpp"
+
 #include <DbgHelp.h>
 #include <winternl.h>
 
@@ -8,7 +10,10 @@ namespace big
 	stack_trace::stack_trace() :
 	    m_frame_pointers(32)
 	{
-		SymInitialize(GetCurrentProcess(), nullptr, true);
+		SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+
+		const auto symbol_path = g_file_manager.get_module_dir().string();
+		SymInitialize(GetCurrentProcess(), symbol_path.c_str(), true);
 	}
 
 	stack_trace::~stack_trace()
@@ -123,7 +128,7 @@ namespace big
 		DWORD displacement;
 
 
-		IMAGEHLP_LINE64 line;
+		IMAGEHLP_LINE64 line{};
 		line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
 
 		for (size_t i = 0; i < m_frame_pointers.size() && m_frame_pointers[i]; ++i)
@@ -185,6 +190,7 @@ namespace big
 	void stack_trace::grab_stacktrace()
 	{
 		CONTEXT context = *m_exception_info->ContextRecord;
+		std::fill(m_frame_pointers.begin(), m_frame_pointers.end(), 0);
 
 		STACKFRAME64 frame{};
 		frame.AddrPC.Mode      = AddrModeFlat;
@@ -194,7 +200,8 @@ namespace big
 		frame.AddrFrame.Offset = context.Rbp;
 		frame.AddrStack.Offset = context.Rsp;
 
-		for (size_t i = 0; i < m_frame_pointers.size(); ++i)
+		m_frame_pointers[0] = context.Rip;
+		for (size_t i = 1; i < m_frame_pointers.size(); ++i)
 		{
 			if (!StackWalk64(IMAGE_FILE_MACHINE_AMD64, GetCurrentProcess(), GetCurrentThread(), &frame, &context, nullptr, SymFunctionTableAccess64, SymGetModuleBase64, nullptr))
 			{

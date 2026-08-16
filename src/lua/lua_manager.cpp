@@ -31,6 +31,19 @@ namespace big
 		m_wake_time_changed_scripts_check = std::chrono::high_resolution_clock::now() + m_delay_between_changed_scripts_check;
 
 		g_lua_manager = this;
+		
+		// Ensure all script folders exist
+		try
+		{
+			std::filesystem::create_directories(m_scripts_folder.get_path());
+			std::filesystem::create_directories(m_scripts_config_folder.get_path());
+			std::filesystem::create_directories(m_disabled_scripts_folder.get_path());
+			LOGF(INFO, "Lua folders initialized: {}", m_scripts_folder.get_path().string());
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			LOG(FATAL) << "Failed to create Lua folders: " << e.what();
+		}
 
 		load_all_modules();
 	}

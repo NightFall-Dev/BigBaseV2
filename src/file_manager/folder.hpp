@@ -16,9 +16,9 @@ namespace big
 
 	private:
 		friend class file_manager;
-		file_manager* m_file_manager;
+		file_manager* m_file_manager = nullptr;
 
-		bool m_is_project_file;
+		bool m_is_project_file = false;
 
 		std::filesystem::path m_folder_path;
 	};

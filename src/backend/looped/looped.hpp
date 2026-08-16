@@ -25,12 +25,6 @@ namespace big
 
 		static void self_wanted();
 
-		static void session_pop_multiplier_areas();
-		static void session_force_thunder();
-		static void session_block_jobs();
-		static void session_randomize_ceo_colors();
-		static void session_auto_kick_host();
-		static void session_force_script_host();
 		static void session_chat_translator();
 		static void session_modder_detection();
 

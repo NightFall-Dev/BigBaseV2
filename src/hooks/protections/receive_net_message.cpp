@@ -389,6 +389,7 @@ namespace big
 			}
 
 			if (reason == KickReason::BATTLEYE_KICK || reason == KickReason::BATTLEYE_BAN)
+				LOGF(stream::net_messages, WARNING, "{} sent MsgKickPlayer, reason = {}", peer->m_info.name, (int)reason);
 				return true;
 			break;
 		}

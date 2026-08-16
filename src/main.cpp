@@ -144,7 +144,11 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				    std::this_thread::sleep_for(100ms);
 
 			    std::filesystem::path base_dir = g_file_manager.get_module_dir();
-			    g_file_manager.init(base_dir);
+			    if (!g_file_manager.init(base_dir))
+				{
+					LOG(FATAL) << "Failed to initialize file manager with base directory: " << base_dir;
+					return FALSE;
+				}
 
 			    g.init(g_file_manager.get_project_file("./settings.json"));
 			    g_log.initialize("YimMenu", g_file_manager.get_project_file("./cout.log"), g.debug.external_console);

@@ -9,8 +9,11 @@ namespace big
 
 		if (!item)
 		{
-			auto caller_offset = (__int64)_ReturnAddress() - (__int64)GetModuleHandleA(0);
-			LOGF(FATAL, "Pool full! Caller: GTA5.exe+0x{:X}, Size: {}", caller_offset, pool->m_item_count);
+			if (pool && pool->m_size > 0 && pool->m_item_size > 0 && pool->m_item_size < 0x100000 && pool->m_item_count < 0x100000)
+			{
+				auto caller_offset = (__int64)_ReturnAddress() - (__int64)GetModuleHandleA(0);
+				LOGF(WARNING, "Pool allocation failed from offset GTA5.exe+0x{:X}, in Pool Base Addr: 0x{:X}, with item_size={} item_count={}", caller_offset, reinterpret_cast<uintptr_t>(pool), pool->m_item_size, pool->m_item_count);
+			}
 		}
 
 		return item;

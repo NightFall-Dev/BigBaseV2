@@ -29,13 +29,13 @@ namespace big
 			//float roll = rot.y;
 			float yaw = math::deg_to_rad(rot.z + 90); // horizontal
 
-			float dist = 10.f;
+			float dist = 15.f;
 			location.x += dist * cos(pitch) * cos(yaw);
 			location.y += dist * sin(yaw) * cos(pitch);
 			location.z += dist * sin(pitch);
 			Vehicle veh = vehicle::spawn(rage::joaat(g.weapons.vehicle_gun_model.data()), location, ENTITY::GET_ENTITY_HEADING(self::ped));
 
-			dist = 70.f;// Is this indicates how fast?
+			dist = 50.f;// Is this indicates how fast?
 			Vector3 velocity{dist * cos(pitch) * cos(yaw), dist * sin(yaw) * cos(pitch), dist * sin(pitch)};
 
 			ENTITY::SET_ENTITY_ROTATION(veh, rot.x, rot.y, rot.z, rotation_order, 1);

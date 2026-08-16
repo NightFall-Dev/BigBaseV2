@@ -55,18 +55,14 @@ jobs:
       - name: Build 64bit release DLL
         run: cmake --build ./build/x64-Release --config RelWithDebInfo --target YimMenu --
 
-      - name: Rename DLL to YimMenu-dev-{GITHUB_SHA}.dll
-        run: |
-         ren YimMenu.dll YimMenu-dev-${{github.sha}}.dll
-        working-directory: build/x64-Release/
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: bin
           path: |
-            build/x64-Release/YimMenu-dev-*.dll
+            build/x64-Release/YimMenu*.dll
             build/x64-Release/YimMenu*.pdb
+            build/x64-Release/YimMenu*.map
 
       - name: Generate Build Info
         id: var
@@ -103,7 +99,7 @@ jobs:
       - name: Echo build sha256
         id: build_sha
         run: |
-          sha256sum YimMenu-dev-*.dll > sha256.checksum
+          sha256sum YimMenu*.dll > sha256.checksum
           echo "build_sha=$(cat sha256.checksum)" >> $GITHUB_OUTPUT
           cat sha256.checksum
 
@@ -145,4 +141,6 @@ jobs:
             ${{ needs.build.outputs.full_sha }}
             ```
           files: |
-            YimMenu-dev-${{github.sha}}.dll
+            YimMenu*.dll
+            YimMenu*.pdb
+            YimMenu*.map

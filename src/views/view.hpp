@@ -17,7 +17,7 @@ namespace big
 
 	class view
 	{
-		inline static ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNav;
+        inline static ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNav;
 
 	public:
 		static void active_view();
@@ -82,8 +82,6 @@ namespace big
 
 		static void player_info();
 		static void player_teleport();
-		static void player_kick();
-		static void player_toxic();
 		static void player_misc();
 		static void player_vehicle();
 	};

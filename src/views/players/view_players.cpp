@@ -37,7 +37,7 @@ namespace big
 		const auto window = ImGui::GetCurrentWindow();
 		ImGui::PushFont(g.window.font_icon);
 		const auto icons_size = ImGui::CalcTextSize(player_iconsc, player_icons_end);
-		const ImVec2 icons_pos(window->DC.CursorPos.x + 300.0f - 32.0f - icons_size.x, window->DC.CursorPos.y + 2.0f);
+		const ImVec2 icons_pos(window->DC.CursorPos.x + 300.0f * g.window.gui_scale - 32.0f - icons_size.x, window->DC.CursorPos.y + 2.0f);
 		const ImRect icons_box(icons_pos, icons_pos + icons_size);
 		ImGui::PopFont();
 
@@ -56,7 +56,7 @@ namespace big
 
 		const auto style = ImGui::GetStyle();
 		// branchless conditional calculation
-		const auto plyr_btn_width = 300.f - (style.ItemInnerSpacing.x * 2) - (has_scrollbar * style.ScrollbarSize);
+		const auto plyr_btn_width = (300.f * g.window.gui_scale) - (style.ItemInnerSpacing.x * 2) - (has_scrollbar * style.ScrollbarSize);
 		if (ImGui::Button(plyr->get_name(), { plyr_btn_width, 0.f}))
 		{
 			g_player_service->set_selected(plyr);
@@ -70,7 +70,7 @@ namespace big
 			{
 				ImGui::BeginTooltip();
 				for (auto infraction : sorted_player->infractions)
-					ImGui::BulletText(sorted_player->get_infraction_description(infraction));
+					ImGui::BulletText("%s", sorted_player->get_infraction_description(infraction));
 				ImGui::EndTooltip();
 			}
 		}
@@ -101,15 +101,14 @@ namespace big
 		    + g_gui_service->nav_ctr * ImGui::GetStyle().ItemSpacing.y
 		    + g_gui_service->nav_ctr * ImGui::GetStyle().ItemInnerSpacing.y + ImGui::GetStyle().WindowPadding.y;
 
-		ImGui::SetNextWindowSize({300.f, 0.f});
-		ImGui::SetNextWindowPos({10.f, window_pos});
+		ImGui::SetNextWindowSize({300.f * g.window.gui_scale, 0.f}, ImGuiCond_Always);
+		ImGui::SetNextWindowPos({10.f * g.window.gui_scale, window_pos}, ImGuiCond_Always);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {2.0f, 2.0f});
 
 		if (ImGui::Begin("playerlist", nullptr, window_flags))
 		{
 			const auto style = ImGui::GetStyle();
 			float window_height = (
-				//ImGui::CalcTextSize("A").y + ImGui::GetStyle().ItemInnerSpacing.y * 2.0f + style.ItemSpacing.y) // button size
 				ImGui::CalcTextSize("A").y + style.FramePadding.y * 2.0f + style.ItemSpacing.y) // button size
 				* player_count // amount of players
 				+ (player_count > 1) * ((style.ItemSpacing.y * 2) + 1.f) // account for ImGui::Separator spacing

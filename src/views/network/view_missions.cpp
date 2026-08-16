@@ -28,6 +28,8 @@ namespace big
 		components::sub_title("VIEW_NET_MISSIONS_EVENT_STARTER"_T);
 
 		ImGui::BeginGroup();
+		if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
+			ImGui::SetTooltip("SESSION_HOST_REQ"_T.data());
 		components::button("VIEW_NET_MISSIONS_HOT_TARGET"_T, [] {
 			scripts::start_launcher_script("AM_HOT_TARGET"_J);
 		});

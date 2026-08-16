@@ -151,6 +151,7 @@ namespace big
 
 		if (is_running())
 		{
+			LOG(INFO) << "BattlEye service started.";
 			return;
 		}
 
@@ -192,6 +193,7 @@ namespace big
 
 		if (!is_running())
 		{
+			LOG(WARNING) << "BattlEye service stopped.";
 			return;
 		}
 
@@ -211,7 +213,7 @@ namespace big
 		char string[32]{};
 
 		snprintf(string, sizeof(string), "%I64d", rockstar_id);
-		auto guid = big::string::operations::base64_encode(string);
+		auto guid = string::operations::base64_encode(string);
 
 		m_battleye_api.m_add_player(token, -1, 0, name, false);
 		m_battleye_api.m_assign_guid(token, guid.data(), guid.length());
@@ -270,15 +272,6 @@ namespace big
 		case HEARTBEAT:
 		{
 			send_message_to_server(token, message, size);
-
-			if (g.session.kick_host_to_stay_in_session && msg[1] == 5)
-			{
-				if (auto player = g_player_service->get_by_host_token(token))
-				{
-					player_command::get("nfkick"_J)->call(player, {});
-				}
-			}
-
 			break;
 		}
 		case REQUEST:
@@ -288,6 +281,11 @@ namespace big
 				break;
 			}
 			send_message_to_server(token, message, 2);
+			break;
+		}
+		default:
+		{
+			send_message_to_server(token, message, size);
 			break;
 		}
 		}

@@ -146,25 +146,13 @@ namespace big
 		components::script_patch_checkbox("REVEAL_HIDDEN_PLAYERS"_T,
 		    &g.session.unhide_players_from_player_list,
 		    "REVEAL_HIDDEN_PLAYERS_DESC"_T.data());
-		components::command_button<"sextall">({}, "SEND_SEXT"_T);
-		components::command_button<"fakebanall">({}, "FAKE_BAN_MESSAGE"_T);
 		ImGui::EndGroup();
 
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		components::command_checkbox<"harass">();
-		ImGui::Checkbox("SPAM_KILLFEED"_T.data(), &g.session.spam_killfeed);
-		ImGui::EndGroup();
-
-		ImGui::SameLine();
-
-		ImGui::BeginGroup();
-		ImGui::Checkbox("EXPLOSION_KARMA"_T.data(), &g.session.explosion_karma);
-		ImGui::Checkbox("DAMAGE_KARMA"_T.data(), &g.session.damage_karma);
 		ImGui::Checkbox("DISABLE_PEDS"_T.data(), &g.session.disable_peds);
 		ImGui::Checkbox("DISABLE_TRAFFIC"_T.data(), &g.session.disable_traffic);
-		ImGui::Checkbox("FORCE_THUNDER"_T.data(), &g.session.force_thunder);
 		ImGui::Checkbox("LOBBY_LOCK"_T.data(), &g.session.lock_session);
 		if (g.session.lock_session)
 		{
@@ -177,113 +165,9 @@ namespace big
 		ImGui::EndGroup();
 	}
 
-	void render_teleport_options()
-	{
-		ImGui::SeparatorText("TELEPORTS"_T.data());
-
-		ImGui::SetNextItemWidth(300);
-		if (ImGui::BeginCombo("##apartment", apartment_names[g.session.send_to_apartment_idx]))
-		{
-			for (int i = 1; i < apartment_names.size(); i++)
-			{
-				if (ImGui::Selectable(apartment_names[i], i == g.session.send_to_apartment_idx))
-				{
-					g.session.send_to_apartment_idx = i;
-				}
-
-				if (i == g.session.send_to_apartment_idx)
-				{
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-
-			ImGui::EndCombo();
-		}
-
-		ImGui::SameLine();
-
-		components::command_button<"apartmenttpall">({(uint64_t)g.session.send_to_apartment_idx}, "TP_ALL_TO_APARTMENT"_T);
-
-		ImGui::SetNextItemWidth(300);
-		if (ImGui::BeginCombo("##warehouse", warehouse_names[g.session.send_to_warehouse_idx]))
-		{
-			for (int i = 1; i < warehouse_names.size(); i++)
-			{
-				if (ImGui::Selectable(warehouse_names[i], i == g.session.send_to_warehouse_idx))
-				{
-					g.session.send_to_warehouse_idx = i;
-				}
-
-				if (i == g.session.send_to_warehouse_idx)
-				{
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-
-			ImGui::EndCombo();
-		}
-
-		ImGui::SameLine();
-
-		components::command_button<"warehousetpall">({(uint64_t)g.session.send_to_warehouse_idx}, "TP_ALL_TO_WAREHOUSE"_T);
-
-		ImGui::BeginGroup();
-		components::button("TP_ALL_TO_DARTS"_T, [] {
-			g_player_service->iterate([](auto& plyr) {
-				toxic::start_activity(plyr.second, eActivityType::Darts);
-			});
-		});
-		components::button("TP_ALL_TO_FLIGHT_SCHOOL"_T, [] {
-			g_player_service->iterate([](auto& plyr) {
-				toxic::start_activity(plyr.second, eActivityType::PilotSchool);
-			});
-		});
-		components::button("TP_ALL_TO_MAP_CENTER"_T, [] {
-			g_player_service->iterate([](auto& plyr) {
-				toxic::start_activity(plyr.second, eActivityType::ArmWresling);
-			});
-		});
-		components::button("TP_ALL_TO_SKYDIVE"_T, [] {
-			g_player_service->iterate([](auto& plyr) {
-				toxic::start_activity(plyr.second, eActivityType::Skydive);
-			});
-		});
-		components::command_button<"interiortpall">({81}, "TP_ALL_TO_MOC"_T);
-		components::command_button<"interiortpall">({123}, "TP_ALL_TO_CASINO"_T);
-		components::command_button<"interiortpall">({124}, "TP_ALL_TO_PENTHOUSE"_T);
-		components::command_button<"interiortpall">({128}, "TP_ALL_TO_ARCADE"_T);
-		ImGui::EndGroup();
-
-		ImGui::SameLine();
-
-		ImGui::BeginGroup();
-		components::command_button<"interiortpall">({146}, "TP_ALL_TO_MUSIC_LOCKER"_T);
-		components::command_button<"interiortpall">({148}, "TP_ALL_TO_RECORD_A_STUDIOS"_T);
-		components::command_button<"interiortpall">({149}, "TP_ALL_TO_CUSTOM_AUTO_SHOP"_T);
-		components::command_button<"interiortpall">({155}, "TP_ALL_TO_AGENCY"_T);
-		components::command_button<"interiortpall">({160}, "TP_ALL_TO_FREAKSHOP"_T);
-		components::command_button<"interiortpall">({161}, "TP_ALL_TO_MULTI_FLOOR_GARAGE"_T);
-		components::command_button<"tutorialall">();
-		components::command_button<"golfall">();
-		ImGui::EndGroup();
-
-		ImGui::SameLine();
-
-		ImGui::BeginGroup();
-		components::command_button<"flightschoolall">();
-		components::command_button<"dartsall">();
-		components::command_button<"badlandsall">();
-		components::command_button<"spacemonkeyall">();
-		components::command_button<"wizardall">();
-		components::command_button<"qub3dall">();
-		components::command_button<"camhedzall">();
-		ImGui::EndGroup();
-	}
-
 	void view::network()
 	{
 		render_join_game();
 		render_general_options();
-		render_teleport_options();
 	}
 }

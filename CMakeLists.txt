@@ -70,25 +70,37 @@ target_link_libraries(YimMenu PRIVATE pugixml minhook AsyncLogger dbghelp imgui 
 set_property(TARGET YimMenu PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
 add_compile_definitions(YimMenu 
-    "NDEBUG"
-    "_WINDOWS"
     "_CRT_SECURE_NO_WARNINGS"
     "NOMINMAX"
     "WIN32_LEAN_AND_MEAN"
 	"WINVER=0x0A00"
 	"_WIN32_WINNT=0x0A00"
+	"YIM_DEV"
 )
 
 # Optimizations
 if(MSVC)
-    if(OPTIMIZE)
-      set(CMAKE_MODULE_LINKER_FLAGS
-          "${CMAKE_MODULE_LINKER_FLAGS} /LTCG /OPT:REF,ICF /GUARD:NO")
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+        
+        target_compile_options(YimMenu PRIVATE "/Zi")
+        target_link_options(YimMenu PRIVATE "/DEBUG" "/MAP")
+    endif()
 
-      set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
-          "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /O2 /Oi /Ot /Oy /Ob3 /sdl- /GL /GF /GS- /Gw")
-      string(REPLACE "/Ob1" "/Ob2" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+    if(OPTIMIZE)
+        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /LTCG /OPT:REF,ICF /GUARD:NO")
+
+        if(CMAKE_BUILD_TYPE STREQUAL "Release")
+            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Oy /Ob3 /sdl- /GL /GF /GS- /Gw")
+            string(REPLACE "/Ob1" "/Ob2" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+        elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+            set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /O2 /Oi /Ot /Oy /Ob3 /sdl- /GL /GF /GS- /Gw")
+            string(REPLACE "/Ob1" "/Ob2" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+        endif()
     else()
         add_compile_definitions(YIM_DEV)
+        
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+            target_link_options(YimMenu PRIVATE "/OPT:REF,ICF")
+        endif()
     endif()
 endif()

@@ -2,15 +2,6 @@ name: CI
 
 on:
   workflow_dispatch:
-    inputs:
-      release:
-        description: 'Release - Builds release by default.'
-        default: 'true'
-        required: true
-        type: choice
-        options:
-        - true
-        - false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,11 +18,6 @@ jobs:
           ref: ${{ github.head_ref || github.ref }}
           submodules: recursive
 
-      - name: Setup cmake
-        uses: akshaybabloo/actions-setup-cmake@v2
-        with:
-          cmake-version: '3.20.x'
-
       - name: Check CMake version
         run: cmake --version
 
@@ -40,78 +26,37 @@ jobs:
         with:
           arch: amd64
 
-      - name: Cache build directory (Release)
-        uses: actions/cache@v4
-        if: github.event.inputs.release == 'true'
-        with:
-          path: build/x64-Release
-          key: ${{ runner.os }}-build-release-${{ hashFiles('**/src/core/settings.hpp') }}
-          restore-keys: ${{ runner.os }}-build-release-${{ hashFiles('**/src/core/settings.hpp') }}
-
-      - name: Cache build directory (Debug)
-        uses: actions/cache@v4
-        if: github.event.inputs.release != 'true'
-        with:
-          path: build/x64-Release-Dev
-          key: ${{ runner.os }}-build-debug-${{ hashFiles('**/src/core/settings.hpp') }}
-          restore-keys: ${{ runner.os }}-build-debug-${{ hashFiles('**/src/core/settings.hpp') }}
-
       - name: Generate CMake project
-        if: github.event.inputs.release == 'true'
         run: |
-            cmake -D CMAKE_BUILD_TYPE=Release -D OPTIMIZE=True -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release -G Ninja
+          cmake -D CMAKE_BUILD_TYPE=Release -D OPTIMIZE=True -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release -G Ninja
 
-      - name: Generate CMake project
-        if: github.event.inputs.release != 'true'
+      - name: Build 64bit Release DLL
         run: |
-            cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D "CMAKE_POLICY_VERSION_MINIMUM=3.5" -S . -B build/x64-Release-Dev -G Ninja
-
-      - name: Build 64bit DLL
-        if: github.event.inputs.release == 'true'
-        run: |
-            cmake --build ./build/x64-Release --config Release --target YimMenu --
-            
-      - name: Build 64bit DLL
-        if: github.event.inputs.release != 'true'
-        run: |
-            cmake --build ./build/x64-Release-Dev --config RelWithDebInfo --target YimMenu --
+          cmake --build ./build/x64-Release --config Release --target YimMenu --
 
       - name: Check if DLL got built
-        if: github.event.inputs.release == 'true'
         run: if (-Not (Test-Path -path "build/x64-Release/YimMenu.dll")) {throw 1}
-        
-      - name: Check if DLL got built
-        if: github.event.inputs.release != 'true'
-        run: if (-Not (Test-Path -path "build/x64-Release-Dev/YimMenu.dll")) {throw 1}
 
-      - name: Rename DLL to YimMenu-{GITHUB_SHA}.dll
-        if: github.event.inputs.release == 'true'
+      - name: Generate DLL hash
         run: |
-          del YimMenu-*.dll
-          ren YimMenu.dll YimMenu-${{github.sha}}.dll
-          sha256sum YimMenu-*.dll > YimMenu-${{github.sha}}.dll.sha256
+          sha256sum YimMenu.dll > YimMenu.dll.sha256
         working-directory: build/x64-Release/
-        
-      - name: Rename DLL to YimMenu-dev-{GITHUB_SHA}.dll
-        if: github.event.inputs.release != 'true'
-        run: |
-          del YimMenu-dev-*.dll
-          ren YimMenu.dll YimMenu-dev-${{github.sha}}.dll
-          sha256sum YimMenu-dev-*.dll > YimMenu-dev-${{github.sha}}.dll.sha256
-        working-directory: build/x64-Release-Dev/
 
-      - name: Upload Artifact
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: bin
           path: |
-            build/*/YimMenu-*.dll
-            build/*/YimMenu-*.dll.sha256
+            build/x64-Release/YimMenu.dll
+            build/x64-Release/YimMenu.pdb
+            build/x64-Release/YimMenu.map
+            build/x64-Release/YimMenu.dll.sha256
           compression-level: 0
           
-      - name: Upload Artifact
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: pdb
+          name: dll
           path: |
-            build/*/YimMenu*.pdb
+            build/x64-Release/YimMenu.dll
+          compression-level: 0

@@ -20,7 +20,7 @@ namespace big
 	private:
 		friend class file_manager;
 
-		bool m_is_project_file;
+		bool m_is_project_file = false;
 		std::filesystem::path m_file_path;
 	};
 }

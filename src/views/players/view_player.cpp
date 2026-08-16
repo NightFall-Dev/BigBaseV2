@@ -42,8 +42,6 @@ namespace big
 
 			view::player_info();
 			view::player_teleport();
-			view::player_kick();
-			view::player_toxic();
 			view::player_vehicle();
 			view::player_misc();
 		}

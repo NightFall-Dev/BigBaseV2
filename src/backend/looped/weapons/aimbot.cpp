@@ -143,15 +143,11 @@ namespace big
 					continue;
 				}
 
-				if (ped->m_health <= 0)
-				{
-					continue;
-				}
-
 				const auto ped_handle = g_pointers->m_gta.m_ptr_to_handle(ped);
 				const bool is_not_a_player_and_we_target_only_players = g_aimbot_only_on_player.is_enabled() && !ped->m_player_info;
 				const bool are_we_in_the_same_vehicle = self::veh != 0 && self::veh == PED::GET_VEHICLE_PED_IS_IN(ped_handle, TRUE);
-				if (is_not_a_player_and_we_target_only_players || are_we_in_the_same_vehicle)
+				const bool is_dead = PED::IS_PED_DEAD_OR_DYING(ped_handle, TRUE) || (ped->m_health <= 0.0f);
+				if (is_not_a_player_and_we_target_only_players || are_we_in_the_same_vehicle || is_dead)
 				{
 					continue;
 				}

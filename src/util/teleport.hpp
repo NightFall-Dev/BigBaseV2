@@ -29,6 +29,15 @@ namespace big::teleport
 		}
 	}
 
+	inline void to_exact_coords(const Vector3& location)
+	{
+		const auto entity = PED::IS_PED_IN_ANY_VEHICLE(self::ped, false) ? self::veh : self::ped;
+
+		STREAMING::REQUEST_COLLISION_AT_COORD(location.x, location.y, location.z);
+		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(entity, true, 0);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(entity, location.x, location.y, location.z, false, false, false);
+	}
+
 	inline bool teleport_player_to_coords(player_ptr player, Vector3 coords, Vector3 euler = {0, 0, 0})
 	{
 		Entity ent;
@@ -181,7 +190,7 @@ namespace big::teleport
 		if (sprite == (int)BlipIcons::RADAR_WAYPOINT)
 			entity::load_ground_at_3dcoord(location);
 
-		to_coords(location);
+		to_exact_coords(location);
 
 		return true;
 	}
@@ -221,9 +230,9 @@ namespace big::teleport
 			return false;
 		}
 
-		to_coords(location);
+		to_exact_coords(location);
 
-		return false;
+		return true;
 	}
 
 	inline bool to_highlighted_blip()
