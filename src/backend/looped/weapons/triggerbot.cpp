@@ -11,6 +11,8 @@ namespace big
 	class triggerbot : looped_command
 	{
 		using looped_command::looped_command;
+		
+		std::chrono::steady_clock::time_point last_shoot_time;
 
 		virtual void on_tick() override
 		{
@@ -108,10 +110,19 @@ namespace big
 						{
 							return;
 						}
+						
+						auto current_time = std::chrono::steady_clock::now();
+						auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - last_shoot_time).count();
+						
+						if (elapsed_time >= 1000)
+						{
+							last_shoot_time = current_time;
+							PED::SET_PED_RESET_FLAG(self::ped, 65, TRUE);
+						}
 
 						//Vector3 coords = ENTITY::GET_ENTITY_BONE_POSTION(crosshair_catch, 0x796E); //SKEL_Head (This will fix the edge case of peds in cars)
 						//PED::SET_PED_SHOOTS_AT_COORD(self::ped, coords.x, coords.y, coords.z, true);
-						PED::SET_PED_RESET_FLAG(self::ped, 65, TRUE);
+						//PED::SET_PED_RESET_FLAG(self::ped, 65, TRUE);
 					}
 				}
 			}

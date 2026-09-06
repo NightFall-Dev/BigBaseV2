@@ -130,6 +130,36 @@ namespace big::mobile
 		{
 			*scr_globals::freemode_global.at(647).as<int*>() = 1;
 		}
+		// Filling this up for you, as because they don't care on legacy version anymore
+		inline void request_dinghy()
+		{
+			*scr_globals::freemode_global.at(625).as<int*>() = 1;
+		}
+		
+		inline void request_transporter()
+		{
+			*scr_globals::freemode_global.at(362).as<int*>() = 1;
+		}
+		
+		inline void request_rc_bandito()
+		{
+			*scr_globals::freemode_global.at(5832).as<int*>() = 1;
+		}
+		
+		inline void request_rc_tank()
+		{
+			*scr_globals::freemode_global.at(5833).as<int*>() = 1;
+		}
+		
+		inline void request_supervolito()
+		{
+			*scr_globals::freemode_global.at(547).as<int*>() = 1;
+		}
+		
+		inline void request_cp_heli_backup()
+		{
+			*scr_globals::freemode_global.at(490).as<int*>() = 1;
+		}
 	}
 
 	namespace mechanic

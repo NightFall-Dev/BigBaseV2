@@ -414,6 +414,12 @@ namespace big
 
 	void view::stat_editor()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
+		
 		static bool init = ([]()
 		{
 			strcpy_s(stat_int_text, sizeof(stat_int_text), g.stat_editor.stat.int_text.c_str());

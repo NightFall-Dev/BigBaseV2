@@ -50,6 +50,8 @@ namespace big
 
 		std::stringstream m_dump;
 		std::vector<uint64_t> m_frame_pointers;
+		std::string m_symbol_path;
+		bool m_symbols_initialized = false;
 
 		inline static std::vector<module_info> m_modules;
 	};

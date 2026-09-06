@@ -26,6 +26,12 @@ namespace big
 
 	void render_host_options()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
+
 		ImGui::BeginGroup();
 
 		ImGui::SameLine();

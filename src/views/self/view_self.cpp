@@ -32,7 +32,7 @@ namespace big
 		components::command_checkbox<"otr">();
 		const auto gpbd_fm_3 = scr_globals::gpbd_fm_3.as<GPBD_FM_3*>();
 		if (g.self.off_radar && *g_pointers->m_gta.m_is_session_started && gpbd_fm_3->Entries[self::id].BossGoon.Boss == self::id)
-			components::command_checkbox<"ghostorg">();
+			components::command_checkbox<"ghostorg">(std::nullopt, true);
 		components::command_checkbox<"freecam">();
 		components::command_checkbox<"nophone">();
 		components::command_checkbox<"infoxy">();

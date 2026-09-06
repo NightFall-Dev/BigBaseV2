@@ -85,7 +85,7 @@ namespace big
 			ImGui::BeginGroup();
 
 			components::command_checkbox<"instantbrake">();
-			components::command_checkbox<"blockhoming">();
+			components::command_checkbox<"blockhoming">(std::nullopt, true);
 			components::command_checkbox<"driveonwater">();
 			components::command_checkbox<"vehiclecontrol">();
 			components::command_checkbox<"keepvehicleclean">();
