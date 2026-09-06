@@ -4,6 +4,7 @@
 #include "fiber_pool.hpp"
 #include "gta/enums.hpp"
 #include "services/players/player_service.hpp"
+#include "util/pathfind.hpp"
 #include "vehicle.hpp"
 
 namespace big::teleport
@@ -27,6 +28,24 @@ namespace big::teleport
 			CAM::SET_GAMEPLAY_CAM_RELATIVE_PITCH(euler.y, 1.f);
 			CAM::SET_GAMEPLAY_CAM_RELATIVE_HEADING(euler.z);
 		}
+	}
+
+	inline bool to_safe_pos(const Vector3& from = self::pos, Entity entity = self::ped)
+	{
+		Vector3 safe_pos{};
+		Interior interior = INTERIOR::GET_INTERIOR_AT_COORDS(safe_pos.x, safe_pos.y, safe_pos.z);
+		float heading = 0.f;
+
+		if (!pathfind::find_closest_vehicle_node(from, safe_pos, heading, 0))
+		{
+			g_notification_service.push_error("DEBUG_TAB_MISC"_T.data(), "VIEW_DEBUG_MISC_TP_TO_SAFE_POS_FAILED"_T.data());
+			return false;
+		}
+
+		ENTITY::SET_ENTITY_COORDS(entity, safe_pos.x, safe_pos.y, safe_pos.z, 0, 0, 0, false);
+		INTERIOR::REFRESH_INTERIOR(interior);
+		
+		return true;
 	}
 
 	inline void to_exact_coords(const Vector3& location)

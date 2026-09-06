@@ -12,8 +12,8 @@ namespace big
 	{
 		SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
 
-		const auto symbol_path = g_file_manager.get_module_dir().string();
-		SymInitialize(GetCurrentProcess(), symbol_path.c_str(), true);
+		m_symbol_path = g_file_manager.get_module_dir().string();
+		m_symbols_initialized = SymInitialize(GetCurrentProcess(), m_symbol_path.c_str(), true);
 	}
 
 	stack_trace::~stack_trace()
@@ -115,6 +115,15 @@ namespace big
 
 	void stack_trace::dump_stacktrace()
 	{
+		m_dump << "Symbol search path: " << (m_symbol_path.empty() ? "<empty>" : m_symbol_path) << '\n'
+		       << "Symbols initialized: " << (m_symbols_initialized ? "yes" : "no") << '\n';
+
+		char effective_symbol_path[MAX_PATH]{};
+		if (SymGetSearchPath(GetCurrentProcess(), effective_symbol_path, sizeof(effective_symbol_path)))
+			m_dump << "Effective symbol search path: " << effective_symbol_path << '\n';
+		else
+			m_dump << "Failed to query effective symbol search path, error: " << GetLastError() << '\n';
+
 		m_dump << "Dumping stacktrace:";
 		grab_stacktrace();
 

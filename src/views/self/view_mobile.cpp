@@ -5,6 +5,11 @@ namespace big
 {
 	void view::mobile()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
 		ImGui::SetWindowSize({0.f, (float)*g_pointers->m_gta.m_resolution_y}, ImGuiCond_Always);
 
 
@@ -50,6 +55,13 @@ namespace big
 		components::command_button<"terrorbyte">();
 		components::command_button<"acidlab">();
 		components::command_button<"acidbike">();
+		// Filling this up for you, as because they don't care on legacy version anymore
+		components::command_button<"dinghy">();
+		components::command_button<"transporter">();
+		components::command_button<"rcbandito">();
+		components::command_button<"rctank">();
+		components::command_button<"supervolito">();
+		components::command_button<"cphelibk">();
 
 		ImGui::SeparatorText("DEBUG_TAB_MISC"_T.data());
 

@@ -94,7 +94,68 @@ namespace big
 			mobile::services::request_acidlab_bike();
 		}
 	};
+	
+	// Filling this up for you, as because they don't care on legacy version anymore
+	class request_dinghy : command
+	{
+		using command::command;
 
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_dinghy();
+		}
+	};
+	
+	class request_transporter : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_transporter();
+		}
+	};
+	
+	class request_rc_bandito : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_rc_bandito();
+		}
+	};
+	
+	class request_rc_tank : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_rc_tank();
+		}
+	};
+	
+	class request_supervolito : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_supervolito();
+		}
+	};
+	
+	class request_cp_heli_backup : command
+	{
+		using command::command;
+
+		virtual void execute(const command_arguments&, const std::shared_ptr<command_context> ctx) override
+		{
+			mobile::services::request_cp_heli_backup();
+		}
+	};
+	
 	class request_taxi : command
 	{
 		using command::command;
@@ -124,6 +185,13 @@ namespace big
 	request_terrorbyte g_request_terrorbyte("terrorbyte", "REQUEST_TERRORBYTE", "REQUEST_TERRORBYTE_DESC", 0);
 	request_acidlab g_request_acidlab("acidlab", "REQUEST_ACIDLAB", "REQUEST_ACIDLAB_DESC", 0);
 	request_acidlab_bike g_request_acidlab_bike("acidbike", "REQUEST_ACIDBIKE", "REQUEST_ACIDBIKE_DESC", 0);
+	// Filling this up for you, as because they don't care on legacy version anymore
+	request_dinghy g_request_dinghy("dinghy", "REQUEST_DINGHY", "REQUEST_DINGHY_DESC", 0);
+	request_transporter g_request_transporter("transporter", "REQUEST_TRANSPORTER", "REQUEST_TRANSPORTER_DESC", 0);
+	request_rc_bandito g_request_rc_bandito("rcbandito", "REQUEST_RC_BANDITO", "REQUEST_RC_BANDITO_DESC", 0);
+	request_rc_tank g_request_rc_tank("rctank", "REQUEST_RC_TANK", "REQUEST_RC_TANK_DESC", 0);
+	request_supervolito g_request_supervolito("supervolito", "REQUEST_SUPERVOLITO", "REQUEST_SUPERVOLITO_DESC", 0);
+	request_cp_heli_backup g_request_cp_heli_backup("cphelibk", "REQUEST_CP_HELI_BACKUP", "REQUEST_CP_HELI_BACKUP_DESC", 0);
 	request_taxi g_request_taxi("taxi", "REQUEST_TAXI", "REQUEST_TAXI_DESC", 0);
 	request_gun_van g_request_gun_van("gunvan", "REQUEST_GUN_VAN", "REQUEST_GUN_VAN_DESC", 0);
 }

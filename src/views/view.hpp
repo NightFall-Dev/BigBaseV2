@@ -23,6 +23,7 @@ namespace big
 		static void active_view();
 		static void esp_settings();
 		static void stat_editor();
+		static void heist_editor();
 		static void gui_settings();
 		static void hotkey_settings();
 		static void handling_current_profile();
@@ -36,7 +37,6 @@ namespace big
 		static void overlay();
 		static void root();
 		static void self();
-		static void animations();
 		static void network();
 		static void network_controls();
 		static void chat();

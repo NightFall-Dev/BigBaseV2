@@ -68,18 +68,24 @@ namespace big
 		}
 
 		template<template_str cmd_str>
-		static bool command_checkbox(std::optional<const std::string_view> label_override = std::nullopt)
+		static bool command_checkbox(std::optional<const std::string_view> label_override = std::nullopt, bool is_for_mp = false)
 		{
 			static bool_command* command = static_cast<bool_command*>(command::get(rage::joaat(cmd_str.value)));
+			const bool can_draw = !is_for_mp || *g_pointers->m_gta.m_is_session_started;
 			if (command == nullptr)
 			{
 				ImGui::Text("INVALID COMMAND");
 				return false;
 			}
+			
+			if (!can_draw)
+				ImGui::BeginDisabled(true);
 
 			bool updated;
 			if (updated = ImGui::Checkbox(label_override.value_or(command->get_label()).data(), &command->is_enabled()))
 				command->refresh();
+			if (!can_draw)
+				ImGui::EndDisabled();
 			if (ImGui::IsItemHovered() && !command->get_description().empty())
 				ImGui::SetTooltip(command->get_description().c_str());
 

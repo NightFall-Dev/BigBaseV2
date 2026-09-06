@@ -23,6 +23,12 @@ namespace big
 
 	void view::missions()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
+		
 		mission_found = false;
 
 		components::sub_title("VIEW_NET_MISSIONS_EVENT_STARTER"_T);

@@ -60,10 +60,6 @@ namespace big
 				DLC::ON_ENTER_SP();
 			});
 
-			components::button("SKIP_CUTSCENE"_T, [] {
-				CUTSCENE::STOP_CUTSCENE_IMMEDIATELY();
-			});
-
 			components::button("REFRESH_INTERIOR"_T, [] {
 				Interior interior = INTERIOR::GET_INTERIOR_AT_COORDS(self::pos.x, self::pos.y, self::pos.z);
 				INTERIOR::REFRESH_INTERIOR(interior);
@@ -86,15 +82,6 @@ namespace big
 					TASK::CLEAR_PED_TASKS_IMMEDIATELY(self::ped);
 				HUD::DISPLAY_RADAR(true);
 				HUD::DISPLAY_HUD(true);
-			});
-
-			components::button("TP_TO_SAFE_POS"_T, [] {
-				Vector3 safepos{};
-				float heading;
-				if (pathfind::find_closest_vehicle_node(self::pos, safepos, heading, 0))
-					ENTITY::SET_ENTITY_COORDS(self::ped, safepos.x, safepos.y, safepos.z, 0, 0, 0, false);
-				else
-					g_notification_service.push_error("DEBUG_TAB_MISC"_T.data(), "VIEW_DEBUG_MISC_TP_TO_SAFE_POS_FAILED"_T.data());
 			});
 
 			ImGui::Checkbox("VIEW_DEBUG_MISC_IMGUI_DEMO"_T.data(), &g.window.demo);

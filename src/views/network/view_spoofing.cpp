@@ -9,6 +9,12 @@ namespace big
 {
 	void view::spoofing()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
+		
 		ImGui::Checkbox("HIDE_FROM_PLAYER_LIST"_T.data(), &g.spoofing.hide_from_player_list);
 
 		components::script_patch_checkbox("SPOOF_BLIP_TYPE"_T, &g.spoofing.spoof_blip);

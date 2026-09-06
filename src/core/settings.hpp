@@ -349,11 +349,10 @@ namespace big
 			bool healthregen                  = false;
 			float healthregenrate             = 1.0f;
 			bool custom_weapon_stop           = true;
-			bool prompt_ambient_animations    = false;
 			bool interaction_menu_freedom     = false;
 			std::atomic_uint_fast8_t typing   = 0;
 
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, custom_weapon_stop, prompt_ambient_animations, interaction_menu_freedom)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(self, clean_player, never_wanted, force_wanted_level, passive, free_cam, invisibility, local_visibility, no_ragdoll, noclip, noclip_aim_speed_multiplier, noclip_speed_multiplier, off_radar, super_run, no_collision, unlimited_oxygen, no_water_collision, wanted_level, god_mode, proof_bullet, proof_fire, proof_collision, proof_melee, proof_explosion, proof_steam, proof_water, proof_mask, mobile_radio, fast_respawn, auto_tp, healthregen, healthregenrate, custom_weapon_stop, interaction_menu_freedom)
 
 		} self{};
 

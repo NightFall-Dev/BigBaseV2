@@ -13,6 +13,12 @@ namespace big
 
 	void view::chat()
 	{
+		if (!*g_pointers->m_gta.m_is_session_started)
+		{
+			ImGui::Text("NOT_ONLINE"_T.data());
+			return;
+		}
+
 		static char msg[256];
 		ImGui::Checkbox("USE_SPAM_TIMER"_T.data(), &g.session.use_spam_timer);
 		if (g.session.use_spam_timer)
@@ -58,7 +64,7 @@ namespace big
 			}
 		}
 
-		components::command_checkbox<"translatechat">();
+		components::command_checkbox<"translatechat">(std::nullopt, true);
 		if (g.session.chat_translator.enabled)
 		{
 			ImGui::Checkbox("TRANSLATOR_HIDE_SAME_LANGUAGE"_T.data(), &g.session.chat_translator.bypass_same_language);

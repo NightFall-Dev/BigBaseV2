@@ -42,6 +42,7 @@ namespace big
 		PLAYER_DATABASE,
 		SESSION_BROWSER,
 		STAT_EDITOR,
+		HEIST_EDITOR,
 
 		SETTINGS,
 		LUA_SCRIPTS,
@@ -101,7 +102,6 @@ namespace big
 						{
 							{TAB_DECL(CUSTOM_TELEPORT), view::custom_teleport}},
 						}}},
-						{TAB_DECL(ANIMATIONS), view::animations}},
 		            },
 		        },
 		    },
@@ -148,6 +148,7 @@ namespace big
 						{TAB_DECL(PLAYER_DATABASE), view::player_database}},
 						{TAB_DECL(SESSION_BROWSER), view::session_browser}},
 						{TAB_DECL(STAT_EDITOR), view::stat_editor}},
+						{TAB_DECL(HEIST_EDITOR), view::heist_editor}},
 		            },
 		        },
 		    },
