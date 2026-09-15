@@ -13,7 +13,7 @@ jobs:
     name: CI
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref }}
           submodules: recursive
@@ -43,20 +43,24 @@ jobs:
         working-directory: build/x64-Release/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bin
           path: |
             build/x64-Release/YimMenu.dll
-            build/x64-Release/YimMenu.pdb
-            build/x64-Release/YimMenu.map
             build/x64-Release/YimMenu.dll.sha256
           compression-level: 0
           
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: dll
+          name: pdb
           path: |
-            build/x64-Release/YimMenu.dll
-          compression-level: 0
+            build/x64-Release/YimMenu.map
+          
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: map
+          path: |
+            build/x64-Release/YimMenu.map
