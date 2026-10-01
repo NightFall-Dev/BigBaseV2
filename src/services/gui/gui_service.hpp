@@ -14,7 +14,6 @@ namespace big
 		TELEPORT,
 		CUSTOM_TELEPORT,
 		MOBILE,
-		ANIMATIONS,
 
 		VEHICLE,
 		HANDLING,

@@ -31,7 +31,8 @@ namespace big
 		if (kick)
 		{
 			g_fiber_pool->queue_job([player] {
-				player_command::get("smartkick"_J)->call(player, {});
+				//player_command::get("smartkick"_J)->call(player, {});
+				LOGF(WARNING, "Command missing, unable to kick {} by any means", player->get_name());
 			});
 		}
 

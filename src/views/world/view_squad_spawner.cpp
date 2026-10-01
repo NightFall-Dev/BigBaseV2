@@ -64,7 +64,7 @@ namespace big
 
 		if (ImGui::BeginPopupModal("##deletesquad"))
 		{
-			ImGui::Text("VIEW_SELF_ANIMATIONS_ARE_YOU_SURE_DELETE"_T.data(), deletion_squad.m_name);
+			ImGui::Text("VIEW_MODAL_CONFIRM_DELETE_SELECTION"_T.data(), deletion_squad.m_name);
 
 			if (ImGui::Button("YES"_T.data()))
 			{

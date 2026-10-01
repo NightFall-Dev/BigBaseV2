@@ -49,7 +49,7 @@ namespace big
 
 		if (ImGui::BeginPopupModal("##deletelocation", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
 		{
-			ImGui::Text("VIEW_SELF_ANIMATIONS_ARE_YOU_SURE_DELETE"_T.data(), deletion_telelocation.name);
+			ImGui::Text("VIEW_MODAL_CONFIRM_DELETE_SELECTION"_T.data(), deletion_telelocation.name);
 
 			ImGui::Spacing();
 
@@ -112,7 +112,7 @@ namespace big
 			}
 			else if (!*g_pointers->m_gta.m_is_session_started)
 			{
-				g_notification_service.push_warning("GUI_TAB_CUSTOM_TELEPORT"_T.data(), "TELEPORT_NOT_ONLINE"_T.data());
+				g_notification_service.push_warning("GUI_TAB_CUSTOM_TELEPORT"_T.data(), "NOT_ONLINE"_T.data());
 				return;
 			}
 			else
@@ -144,7 +144,7 @@ namespace big
 		components::input_text_with_hint("##filter", "SEARCH"_T, filter);
 
 		ImGui::BeginGroup();
-		components::small_text("VIEW_SELF_ANIMATIONS_CATEGORIES"_T);
+		components::small_text("VIEW_CATEGORY_LIST"_T);
 		if (ImGui::BeginListBox("##categories", {250, static_cast<float>(*g_pointers->m_gta.m_resolution_y * 0.5)}))
 		{
 			for (auto& l : g_custom_teleport_service.all_saved_locations | std::ranges::views::keys)

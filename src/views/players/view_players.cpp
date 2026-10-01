@@ -37,7 +37,8 @@ namespace big
 		const auto window = ImGui::GetCurrentWindow();
 		ImGui::PushFont(g.window.font_icon);
 		const auto icons_size = ImGui::CalcTextSize(player_iconsc, player_icons_end);
-		const ImVec2 icons_pos(window->DC.CursorPos.x + 300.0f * g.window.gui_scale - 32.0f - icons_size.x, window->DC.CursorPos.y + 2.0f);
+		//const ImVec2 icons_pos(window->DC.CursorPos.x + 300.0f * g.window.gui_scale - 32.0f - icons_size.x, window->DC.CursorPos.y + 2.0f);//working
+		const ImVec2 icons_pos(window->DC.CursorPos.x + 300.0f - 32.0f - icons_size.x, window->DC.CursorPos.y + 2.0f);
 		const ImRect icons_box(icons_pos, icons_pos + icons_size);
 		ImGui::PopFont();
 

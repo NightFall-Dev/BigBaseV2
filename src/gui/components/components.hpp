@@ -87,7 +87,13 @@ namespace big
 			if (!can_draw)
 				ImGui::EndDisabled();
 			if (ImGui::IsItemHovered() && !command->get_description().empty())
-				ImGui::SetTooltip(command->get_description().c_str());
+			{
+				ImGui::SetTooltip("%s", command->get_description().c_str()); // Format string protection
+			}
+			else if (is_for_mp)
+			{
+				ImGui::SetTooltip("NOT_ONLINE"_T.data()); // Fallback tooltip
+			}
 
 			return updated;
 		}

@@ -3,8 +3,8 @@
 #include "entity.hpp"
 #include "fiber_pool.hpp"
 #include "gta/enums.hpp"
+#include "pathfind.hpp"
 #include "services/players/player_service.hpp"
-#include "util/pathfind.hpp"
 #include "vehicle.hpp"
 
 namespace big::teleport
@@ -46,15 +46,6 @@ namespace big::teleport
 		INTERIOR::REFRESH_INTERIOR(interior);
 		
 		return true;
-	}
-
-	inline void to_exact_coords(const Vector3& location)
-	{
-		const auto entity = PED::IS_PED_IN_ANY_VEHICLE(self::ped, false) ? self::veh : self::ped;
-
-		STREAMING::REQUEST_COLLISION_AT_COORD(location.x, location.y, location.z);
-		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(entity, true, 0);
-		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(entity, location.x, location.y, location.z, false, false, false);
 	}
 
 	inline bool teleport_player_to_coords(player_ptr player, Vector3 coords, Vector3 euler = {0, 0, 0})
@@ -209,7 +200,7 @@ namespace big::teleport
 		if (sprite == (int)BlipIcons::RADAR_WAYPOINT)
 			entity::load_ground_at_3dcoord(location);
 
-		to_exact_coords(location);
+		to_coords(location);
 
 		return true;
 	}
@@ -249,16 +240,16 @@ namespace big::teleport
 			return false;
 		}
 
-		to_exact_coords(location);
+		to_coords(location);
 
-		return true;
+		return false;
 	}
 
 	inline bool to_highlighted_blip()
 	{
 		if (!*g_pointers->m_gta.m_is_session_started)
 		{
-			g_notification_service.push_warning("TELEPORT"_T.data(), "TELEPORT_NOT_ONLINE"_T.data());
+			g_notification_service.push_warning("TELEPORT"_T.data(), "NOT_ONLINE"_T.data());
 			return false;
 		}
 

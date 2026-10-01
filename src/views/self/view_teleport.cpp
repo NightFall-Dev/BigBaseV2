@@ -12,11 +12,11 @@ namespace big
 		ImGui::SameLine();
 		components::command_button<"objectivetp">({}, "VIEW_TELEPORT_OBJECTIVE"_T);
 		ImGui::SameLine();
-		components::command_button<"highlighttp">({}, "VIEW_TELEPORT_SELECTED"_T);
-		ImGui::SameLine();
 		components::button("TP_TO_SAFE_POS"_T, [] {
 			teleport::to_safe_pos();
 		});
+		ImGui::SameLine();
+		components::command_button<"highlighttp">({}, "VIEW_TELEPORT_SELECTED"_T);
 		components::command_checkbox<"autotptowp">();
 
 		ImGui::SeparatorText("VIEW_TELEPORT_MOVEMENT"_T.data());

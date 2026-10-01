@@ -51,7 +51,7 @@ namespace big
 
 		if (ImGui::BeginPopupModal("##deletepersistcar", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
 		{
-			ImGui::Text("VIEW_SELF_ANIMATIONS_ARE_YOU_SURE_DELETE"_T.data(), file_name_to_delete.c_str());
+			ImGui::Text("VIEW_MODAL_CONFIRM_DELETE_SELECTION"_T.data(), file_name_to_delete.c_str());
 
 			ImGui::Spacing();
 
