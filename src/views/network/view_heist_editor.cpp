@@ -500,7 +500,7 @@ namespace big
 			components::sub_title("Diamond Casino Heist");
 			ImGui::TextUnformatted(live_cooldown_status("diamond_casino").c_str());
 			static const char* approaches[] = {"Unselected", "Silent and Sneaky", "The Big Con", "Aggressive"};
-			static const char* targets[] = {"Money", "Gold", "Art", "Diamonds"};
+			static const char* targets[] = {"Cash", "Gold", "Artwork", "Diamond"};
 			static const char* gunmen[] = {"Unselected", "Karl Abolaji", "Gustavo Mota", "Charlie Reed", "Chester McCoy", "Patrick McReary"};
 			static const char* drivers[] = {"Unselected", "Karim Denz", "Taliana Martinez", "Eddie Toh", "Zach Nelson", "Chester McCoy"};
 			static const char* hackers[] = {"Unselected", "Rickie Lukens", "Christian Feltz", "Yohan Blair", "Avi Schwartzman", "Paige Harris"};
@@ -565,15 +565,6 @@ namespace big
 			if (ImGui::Combo("Crew Masks", &mask, masks, std::size(masks)))
 				set_stat_int("H3OPT_MASKS", mask);
 
-			if (ImGui::Button("Silent and Sneaky: Diamonds"))
-			{
-				set_stat_int("H3OPT_APPROACH", 1);
-				set_stat_int("H3_LAST_APPROACH", 3);
-				set_stat_int("H3OPT_TARGET", 3);
-				set_stat_int("H3OPT_BITSET1", 127);
-				set_stat_int("H3OPT_DISRUPTSHIP", 3);
-				set_stat_int("H3OPT_KEYLEVELS", 2);
-			}
 			ImGui::SameLine();
 			components::command_button<"objectivetp">({}, "VIEW_TELEPORT_OBJECTIVE"_T);
 			ImGui::SameLine();
@@ -590,14 +581,14 @@ namespace big
 			if (auto_grabber)
 			{
 				const auto grab_state = gta_util::find_script_thread("fm_mission_controller"_J);
-				if (grab_state)
-				{
-					const auto state = *script_local(grab_state->m_stack, 10311).as<int*>();
-					if (state == 3)
-						set_local_int("fm_mission_controller"_J, 10311, 4);
-					else if (state == 4)
-						set_local_float("fm_mission_controller"_J, 10311 + 14, 2.0F);
-				}
+				if (!grab_state)
+					return;
+
+				const auto state = *script_local(grab_state->m_stack, 10311).as<int*>();
+				if (state == 3)
+					set_local_int("fm_mission_controller"_J, 10311, 4);
+				else if (state == 4)
+					set_local_float("fm_mission_controller"_J, 10311 + 14, 2.0F);
 			}
 
 			if (ImGui::Button("Bypass Fingerprint Hack"))
@@ -799,6 +790,21 @@ namespace big
 			if (ImGui::Button("Bypass Plasma Cutter"))
 				set_local_float("fm_mission_controller_2020"_J, 32349 + 3, 100.0F);
 
+			static int bag_size_value = 1800;
+			ImGui::Separator();
+			ImGui::Text("Bag Size");
+			ImGui::InputInt("##cayo_bag_size", &bag_size_value);
+			ImGui::SameLine();
+			if (ImGui::Button("Set Bag Size"))
+			{
+				set_global_int(262145 + 29300, bag_size_value);
+				bag_size_value = std::clamp(bag_size_value, 1800, 7200);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Read Bag Size"))
+				bag_size_value = *script_global(262145 + 29300).as<int*>();
+			ImGui::Text("Initial Capacity: 1800\nMax Bag Capacity: 7200\nMax Pay Out: 4,188,152");
+
 		}
 
 		void draw_contract()
@@ -874,9 +880,8 @@ namespace big
 			static char notes_buffer[512] = {};
 
 			ImGui::Combo("Heist", &selected_heist, heists, std::size(heists));
-			if (ImGui::InputTextMultiline("Notes / Reason", notes_buffer, std::size(notes_buffer), {0.0F, 80.0F}))
+			if (ImGui::InputTextMultiline("VIEW_NET_PLAYER_HEIST_DB_NOTES"_T.data(), notes_buffer, std::size(notes_buffer), {0.0F, 80.0F}))
 			{
-				// The text field is part of the same menu typing lifecycle as the normal components.
 			}
 			if (ImGui::IsItemActive())
 			{

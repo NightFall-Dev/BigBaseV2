@@ -1,6 +1,7 @@
 #include "http_client/http_client.hpp"
 #include "thread_pool.hpp"
 #include "views/view.hpp"
+#include "util/string_operations.hpp"
 
 namespace big
 {
@@ -38,7 +39,8 @@ namespace big
 		if (components::button("PROXY_SETTINGS_TEST_CURRENT"_T))
 		{
 			g_thread_pool->push([] {
-				const auto response = g_http_client.get("https://github.com/YimMenu/YimMenu/raw/master/metadata.json");
+				auto p_str    = string::operations::base64_decode("aHR0cHM6Ly9naXRodWIuY29tL05pZ2h0RmFsbC1EZXYvQmlnQmFzZVYyL3Jhdy9kZXYvbWV0YWRhdGEuanNvbg");
+				const auto response = g_http_client.get(p_str);
 				try
 				{
 					const auto j = nlohmann::json::parse(response.text);

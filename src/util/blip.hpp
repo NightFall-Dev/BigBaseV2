@@ -4,9 +4,12 @@
 #include "pointers.hpp"
 #include "script.hpp"
 #include "ui/CBlipList.hpp"
+#include <optional>
 
 namespace big::blip
 {
+	std::optional<std::size_t> dump_active_blips();
+
 	bool get_blip_location(Vector3& location, int sprite, int color = -1);
 
 	bool get_objective_location_iteration(Vector3& location, const std::unordered_set<BlipIcons> sprites, const std::unordered_set<BlipColors> blip_colors);

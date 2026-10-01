@@ -445,7 +445,6 @@ namespace big::ped
 	};
 
 	bool change_player_model(const Hash hash);
-	bool steal_outfit(const Ped target);
 	void clone_ped(const Ped src, const Ped target);
 	void steal_identity(const Ped target);
 	void kill_ped(const Ped ped);

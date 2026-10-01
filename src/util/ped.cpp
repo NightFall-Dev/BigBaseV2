@@ -19,22 +19,6 @@ namespace big::ped
 		return false;
 	}
 
-	bool steal_outfit(const Ped target)
-	{
-		Ped ped = self::ped;
-
-		if (ENTITY::GET_ENTITY_MODEL(ped) != ENTITY::GET_ENTITY_MODEL(target))
-		{
-			return false;
-		}
-		for (int i = 0; i < 12; i++)
-		{
-			PED::SET_PED_COMPONENT_VARIATION(ped, i, PED::GET_PED_DRAWABLE_VARIATION(target, i), PED::GET_PED_TEXTURE_VARIATION(target, i), PED::GET_PED_PALETTE_VARIATION(target, i));
-		}
-
-		return true;
-	}
-
 	void clone_ped(const Ped src, const Ped target)
 	{
 		PED::CLONE_PED_TO_TARGET(src, target);

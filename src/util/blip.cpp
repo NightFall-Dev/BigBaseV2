@@ -69,9 +69,13 @@ namespace big::blip
 
 	rage::CBlip* get_selected_blip()
 	{
+		auto* blip_list = g_pointers->m_gta.m_blip_list;
+		if (!blip_list)
+			return nullptr;
+
 		for (int i = 0; i < 1500; i++)
 		{
-			auto blip = g_pointers->m_gta.m_blip_list->m_Blips[i].m_pBlip;
+			auto blip = blip_list->m_Blips[i].m_pBlip;
 			if (blip && (blip->m_display_bits & BlipIsSelected))
 			{
 				return blip;
@@ -82,14 +86,17 @@ namespace big::blip
 
 	rage::CBlip* get_blip_from_blip_id(Blip blip_id)
 	{
+		auto* blip_list = g_pointers->m_gta.m_blip_list;
+		if (!blip_list)
+			return nullptr;
+
 		for (int i = 0; i < 1500; i++)
 		{
-			auto blip = g_pointers->m_gta.m_blip_list->m_Blips[i].m_pBlip;
-			if (blip && (blip->m_blip_array_index == blip_id))
-			{
+			auto* blip = blip_list->m_Blips[i].m_pBlip;
+			if (blip && blip->m_blip_array_index == blip_id)
 				return blip;
-			}
 		}
 		return nullptr;
 	}
+
 }

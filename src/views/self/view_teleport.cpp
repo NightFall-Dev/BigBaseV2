@@ -12,11 +12,54 @@ namespace big
 		ImGui::SameLine();
 		components::command_button<"objectivetp">({}, "VIEW_TELEPORT_OBJECTIVE"_T);
 		ImGui::SameLine();
-		components::command_button<"highlighttp">({}, "VIEW_TELEPORT_SELECTED"_T);
-		ImGui::SameLine();
 		components::button("TP_TO_SAFE_POS"_T, [] {
 			teleport::to_safe_pos();
 		});
+		ImGui::SameLine();
+
+		static Blip selected_blip_id = -1;
+		auto* blip_list = g_pointers->m_gta.m_blip_list;
+		std::string selected_blip_label = "Select active blip";
+		if (auto* selected_blip = blip::get_blip_from_blip_id(selected_blip_id))
+		{
+			selected_blip_label = std::format("Blip {} | Icon {} | ({:.2f}, {:.2f}, {:.2f})",
+			    selected_blip->m_blip_array_index,
+			    selected_blip->m_icon,
+			    selected_blip->m_position.x,
+			    selected_blip->m_position.y,
+			    selected_blip->m_position.z);
+		}
+
+		ImGui::SetNextItemWidth(450);
+		if (ImGui::BeginCombo("##active_blip_select", selected_blip_label.c_str()))
+		{
+			if (blip_list)
+			{
+				for (int i = 0; i < 1500; i++)
+				{
+					auto* active_blip = blip_list->m_Blips[i].m_pBlip;
+					if (!active_blip)
+						continue;
+
+					const auto blip_id = static_cast<Blip>(active_blip->m_blip_array_index);
+					const auto label = std::format("Blip {} | Icon {} | ({:.2f}, {:.2f}, {:.2f})##{}",
+					    blip_id,
+					    active_blip->m_icon,
+					    active_blip->m_position.x,
+					    active_blip->m_position.y,
+					    active_blip->m_position.z,
+					    blip_id);
+					if (ImGui::Selectable(label.c_str(), selected_blip_id == blip_id))
+						selected_blip_id = blip_id;
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::SameLine();
+		components::command_button<"highlighttp">(
+		    selected_blip_id == -1 ? std::vector<uint64_t>{} : std::vector<uint64_t>{static_cast<uint64_t>(selected_blip_id)},
+		    "VIEW_TELEPORT_SELECTED"_T);
 		components::command_checkbox<"autotptowp">();
 
 		ImGui::SeparatorText("VIEW_TELEPORT_MOVEMENT"_T.data());
