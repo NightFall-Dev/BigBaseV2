@@ -185,16 +185,13 @@ namespace big
 		         [this] {
 			         g_player_service->set_selected(ped::get_player_from_ped(m_handle));
 		         }},
-		        {"STEAL OUTFIT",
-		            [this] {
-			            ped::steal_outfit(m_handle);
-		            }},
-		        {"KICK",
-		            [this] {
-			            static player_command* command = player_command::get("smartkick"_J);
-			            command->call(ped::get_player_from_ped(m_handle), {});
-			            script::get_current()->yield(500ms);
-		            }},
+		        //{"KICK",
+		        //    [this] {
+			    //        static player_command* command = player_command::get("smartkick"_J);
+			    //        command->call(ped::get_player_from_ped(m_handle), {});
+			    //        script::get_current()->yield(500ms);
+		        //    }},
+				// I'll think about it just in-case, as for now I removed all kick commands from loops
 		        {"DISARM",
 		            [this] {
 			            static player_command* command = player_command::get("remweaps"_J);

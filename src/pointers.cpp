@@ -1033,33 +1033,33 @@ namespace big
             }
         },
         // Enumerate Audio Devices
-        {
-            "EAD",
-            "48 89 5C 24 08 48 89 7C 24 10 55 48 8B EC 48 83 EC 70 41",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_enumerate_audio_devices = ptr.as<PVOID>();
-            }
-        },
+        //{
+        //    "EAD",
+        //    "48 89 5C 24 08 48 89 7C 24 10 55 48 8B EC 48 83 EC 70 41",
+        //    [](memory::handle ptr)
+        //    {
+        //        g_pointers->m_gta.m_enumerate_audio_devices = ptr.as<PVOID>();
+        //    }
+        //},
         // Direct Sound Capture Create
-        {
-            "DSCC",
-            "E8 ? ? ? ? 33 FF 85 C0 78 C1",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_direct_sound_capture_create = ptr.add(1).rip().as<PVOID>();
-            }
-        },
+        //{
+        //    "DSCC",
+        //    "E8 ? ? ? ? 33 FF 85 C0 78 C1",
+        //    [](memory::handle ptr)
+        //    {
+        //        g_pointers->m_gta.m_direct_sound_capture_create = ptr.add(1).rip().as<PVOID>();
+        //    }
+        //},
         // Refresh Audio Input
-        {
-            "RAI",
-            "40 88 3D ? ? ? ? 89 05 ? ? ? ? 40 38 3D",
-            [](memory::handle ptr)
-            {
-                g_pointers->m_gta.m_refresh_audio_input = ptr.add(3).rip().as<bool*>();
-                g_pointers->m_gta.m_refresh_audio_input_2 = ptr.add(3).rip().as<bool*>() + 2;
-            }
-        },
+        //{
+        //    "RAI",
+        //    "40 88 3D ? ? ? ? 89 05 ? ? ? ? 40 38 3D",
+        //    [](memory::handle ptr)
+        //    {
+        //        g_pointers->m_gta.m_refresh_audio_input = ptr.add(3).rip().as<bool*>();
+        //        g_pointers->m_gta.m_refresh_audio_input_2 = ptr.add(3).rip().as<bool*>() + 2;
+        //    }
+        //},
         // Allow Weapons In Vehicle
         {
             "AWIV",

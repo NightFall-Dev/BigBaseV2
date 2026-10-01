@@ -657,7 +657,7 @@ namespace big
 			int multiplex_count                 = 2;
 			bool increase_player_limit          = false;
 
-			bool voice_chat_audio = false;
+			//bool voice_chat_audio = false;
 
 			bool spoof_game_data_hash = false;
 			std::array<std::uint32_t, 16> game_data_hash{};
@@ -668,7 +668,7 @@ namespace big
 
 			bool game_data_hash_dirty = true;
 
-			NLOHMANN_DEFINE_TYPE_INTRUSIVE(spoofing, hide_from_player_list, spoof_blip, blip_type, spoof_rank, rank, spoof_job_points, job_points, spoof_kd_ratio, kd_ratio, spoof_bad_sport, badsport_type, spoof_player_model, player_model, spoof_cheater, spoof_hide_god, spoof_hide_veh_god, spoof_hide_spectate, spoof_crew_data, crew_tag, rockstar_crew, square_crew_tag, spoof_session_region_type, session_region_type, spoof_session_language, session_language, spoof_session_player_count, session_player_count, spoof_session_bad_sport_status, multiplex_session, multiplex_count, increase_player_limit, voice_chat_audio, spoof_game_data_hash, game_data_hash, spoof_dlc_hash, dlc_hash)
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(spoofing, hide_from_player_list, spoof_blip, blip_type, spoof_rank, rank, spoof_job_points, job_points, spoof_kd_ratio, kd_ratio, spoof_bad_sport, badsport_type, spoof_player_model, player_model, spoof_cheater, spoof_hide_god, spoof_hide_veh_god, spoof_hide_spectate, spoof_crew_data, crew_tag, rockstar_crew, square_crew_tag, spoof_session_region_type, session_region_type, spoof_session_language, session_language, spoof_session_player_count, session_player_count, spoof_session_bad_sport_status, multiplex_session, multiplex_count, increase_player_limit,/* voice_chat_audio,*/ spoof_game_data_hash, game_data_hash, spoof_dlc_hash, dlc_hash)
 		} spoofing{};
 
 		struct vehicle

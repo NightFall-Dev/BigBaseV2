@@ -114,7 +114,8 @@ namespace big
 					}
 
 					if (plyr->block_join && *g_pointers->m_gta.m_is_session_started)
-						player_command::get("smartkick"_J)->call(plyr, {});
+						//player_command::get("smartkick"_J)->call(plyr, {});
+						LOGF(WARNING, "Command missing, {} is on our block join, but unable to kick by any means", plyr->get_name());
 
 					if (is_spoofed_host_token(plyr->get_net_data()))
 					{

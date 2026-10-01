@@ -256,10 +256,10 @@ namespace big
 
 		PVOID m_serialize_stats;
 
-		PVOID m_enumerate_audio_devices;
-		PVOID m_direct_sound_capture_create;
-		bool* m_refresh_audio_input;
-		bool* m_refresh_audio_input_2;
+		//PVOID m_enumerate_audio_devices;
+		//PVOID m_direct_sound_capture_create;
+		//bool* m_refresh_audio_input;
+		//bool* m_refresh_audio_input_2;
 
 		PVOID m_allow_weapons_in_vehicle;
 

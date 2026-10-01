@@ -10,73 +10,95 @@ namespace big
 			ImGui::Text("NOT_ONLINE"_T.data());
 			return;
 		}
-		ImGui::SetWindowSize({0.f, (float)*g_pointers->m_gta.m_resolution_y}, ImGuiCond_Always);
+		if (ImGui::BeginTabBar("##mobile_tab_bar"))
+		{
+			if (ImGui::BeginTabItem("MERRYWEATHER"_T.data()))
+			{
+				components::command_button<"ammodrop">();
+				ImGui::SameLine();
+				components::button("MW_HELI_PICKUP"_T, [] {
+					mobile::merry_weather::request_helicopter_pickup();
+				});
+				ImGui::SameLine();
+				components::command_button<"boatpickup">();
+				ImGui::SameLine();
+				components::button("MW_BACKUP_HELI"_T, [] {
+					mobile::merry_weather::request_backup_helicopter();
+				});
+				ImGui::SameLine();
+				components::button("MW_AIRSTRIKE"_T, [] {
+					mobile::merry_weather::request_airstrike();
+				});
+				ImGui::EndTabItem();
+			}
 
+			if (ImGui::BeginTabItem("CEO_ABILITIES"_T.data()))
+			{
+				components::button("CEO_BULLSHARK"_T, [] {
+					mobile::ceo_abilities::request_bullshark_testosterone();
+				});
+				ImGui::SameLine();
+				components::command_button<"ballisticarmor">();
+				ImGui::EndTabItem();
+			}
 
-		ImGui::SeparatorText("MERRYWEATHER"_T.data());
+			if (ImGui::BeginTabItem("VIEW_SELF_MOBILE_SERVICES"_T.data()))
+			{
+				if (ImGui::BeginTable("##mobile_services", 3))
+				{
+					components::command_button<"avenger">();
+					ImGui::TableNextColumn();
+					components::command_button<"kosatka">();
+					ImGui::TableNextColumn();
+					components::command_button<"moc">();
+					ImGui::TableNextRow();
 
-		// Converted into command_button
-		// Are sent directly to scr_globals via command
-		//components::button("MW_AMMO_DROP"_T, [] {
-		//	mobile::merry_weather::request_ammo_drop();
-		//});
-		
-		components::command_button<"ammodrop">();
+					components::command_button<"terrorbyte">();
+					ImGui::TableNextColumn();
+					components::command_button<"acidlab">();
+					ImGui::TableNextColumn();
+					components::command_button<"acidbike">();
+					ImGui::TableNextRow();
 
-		components::button("MW_HELI_PICKUP"_T, [] {
-			mobile::merry_weather::request_helicopter_pickup();
-		});
+					components::command_button<"dinghy">();
+					ImGui::TableNextColumn();
+					components::command_button<"transporter">();
+					ImGui::TableNextColumn();
+					components::command_button<"rcbandito">();
+					ImGui::TableNextRow();
 
-		components::command_button<"boatpickup">();
+					components::command_button<"rctank">();
+					ImGui::TableNextColumn();
+					components::command_button<"supervolito">();
+					ImGui::TableNextColumn();
+					components::command_button<"cphelibk">();
 
-		components::button("MW_BACKUP_HELI"_T, [] {
-			mobile::merry_weather::request_backup_helicopter();
-		});
+					ImGui::EndTable();
+				}
+				ImGui::EndTabItem();
+			}
 
-		components::button("MW_AIRSTRIKE"_T, [] {
-			mobile::merry_weather::request_airstrike();
-		});
+			if (ImGui::BeginTabItem("DEBUG_TAB_MISC"_T.data()))
+			{
+				components::command_button<"taxi">();
+				ImGui::SameLine();
+				components::command_button<"gunvan">();
+				ImGui::EndTabItem();
+			}
 
+			if (ImGui::BeginTabItem("MORS_MUTUAL"_T.data()))
+			{
+				components::button("MORS_FIX_ALL"_T, [] {
+					int amount_fixed = mobile::mors_mutual::fix_all();
+					auto v_fixed     = amount_fixed == 1 ? "VEHICLE_FIX_HAS"_T.data() : "VEHICLE_FIX_HAVE"_T.data();
 
-		ImGui::SeparatorText("CEO_ABILITIES"_T.data());
+					g_notification_service.push_success("MOBILE"_T.data(),
+					    std::vformat("VEHICLE_FIX_AMOUNT"_T, std::make_format_args(amount_fixed, v_fixed)));
+				});
+				ImGui::EndTabItem();
+			}
 
-		components::button("CEO_BULLSHARK"_T, [] {
-			mobile::ceo_abilities::request_bullshark_testosterone();
-		});
-
-		components::command_button<"ballisticarmor">();
-
-
-		ImGui::SeparatorText("VIEW_SELF_MOBILE_SERVICES"_T.data());
-
-		components::command_button<"avenger">();
-		components::command_button<"kosatka">();
-		components::command_button<"moc">();
-		components::command_button<"terrorbyte">();
-		components::command_button<"acidlab">();
-		components::command_button<"acidbike">();
-		// Filling this up for you, as because they don't care on legacy version anymore
-		components::command_button<"dinghy">();
-		components::command_button<"transporter">();
-		components::command_button<"rcbandito">();
-		components::command_button<"rctank">();
-		components::command_button<"supervolito">();
-		components::command_button<"cphelibk">();
-
-		ImGui::SeparatorText("DEBUG_TAB_MISC"_T.data());
-
-		components::command_button<"taxi">();
-
-		components::command_button<"gunvan">();
-
-		ImGui::SeparatorText("MORS_MUTUAL"_T.data());
-
-		components::button("MORS_FIX_ALL"_T, [] {
-			int amount_fixed = mobile::mors_mutual::fix_all();
-			auto v_fixed     = amount_fixed == 1 ? "VEHICLE_FIX_HAS"_T.data() : "VEHICLE_FIX_HAVE"_T.data(); 
-
-			g_notification_service.push_success("MOBILE"_T.data(),
-			    std::vformat("VEHICLE_FIX_AMOUNT"_T, std::make_format_args(amount_fixed, v_fixed)));
-		});
+			ImGui::EndTabBar();
+		}
 	}
 }

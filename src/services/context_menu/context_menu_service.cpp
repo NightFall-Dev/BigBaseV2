@@ -291,8 +291,8 @@ namespace big
 					continue;
 				}
 
-				ControllerInputs next_key = PAD::IS_USING_KEYBOARD_AND_MOUSE(0) ? ControllerInputs::INPUT_WEAPON_WHEEL_NEXT : ControllerInputs::INPUT_SCRIPT_PAD_DOWN;
-				ControllerInputs prev_key = PAD::IS_USING_KEYBOARD_AND_MOUSE(0) ? ControllerInputs::INPUT_WEAPON_WHEEL_PREV : ControllerInputs::INPUT_SCRIPT_PAD_UP;
+				ControllerInputs next_key = PAD::IS_USING_KEYBOARD_AND_MOUSE(0) ? ControllerInputs::INPUT_WEAPON_WHEEL_NEXT : ControllerInputs::INPUT_SCRIPT_PAD_UP;
+				ControllerInputs prev_key = PAD::IS_USING_KEYBOARD_AND_MOUSE(0) ? ControllerInputs::INPUT_WEAPON_WHEEL_PREV : ControllerInputs::INPUT_SCRIPT_PAD_DOWN;
 				ControllerInputs execute_key = PAD::IS_USING_KEYBOARD_AND_MOUSE(0) ? ControllerInputs::INPUT_ATTACK : ControllerInputs::INPUT_FRONTEND_ACCEPT;
 
 				PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(next_key), true);

@@ -9,11 +9,64 @@
 #include "packet.hpp"
 #include "script_mgr.hpp"
 #include "util/session.hpp"
+#include "file_manager.hpp"
 
 #include <network/snSession.hpp>
+#include <ui/CBlipList.hpp>
 
 namespace big
 {
+	namespace
+	{
+		std::optional<std::size_t> dump_active_blips()
+		{
+			auto* blip_list = g_pointers->m_gta.m_blip_list;
+			if (!blip_list)
+			{
+				LOG(WARNING) << "Cannot dump active blips: blip list is unavailable";
+				return std::nullopt;
+			}
+
+			nlohmann::json active_blips = nlohmann::json::array();
+			for (int i = 0; i < 1500; i++)
+			{
+				auto* blip = blip_list->m_Blips[i].m_pBlip;
+				if (!blip)
+					continue;
+
+				active_blips.push_back({
+				    {"list_slot", i},
+				    {"blip_id", blip->m_blip_array_index},
+				    {"icon_id", blip->m_icon},
+				    {"color", blip->m_color},
+				    {"x", blip->m_position.x},
+				    {"y", blip->m_position.y},
+				    {"z", blip->m_position.z},
+				    {"rotation", blip->m_rotation},
+				    {"category", blip->m_category},
+				});
+			}
+
+			const auto path = g_file_manager.get_project_file("active_blips.json").get_path();
+			std::ofstream output(path, std::ios::out | std::ios::trunc | std::ios::binary);
+			if (!output.is_open())
+			{
+				LOG(WARNING) << "Failed to open active blip dump file: " << path;
+				return std::nullopt;
+			}
+
+			output << active_blips.dump(4);
+			output.flush();
+			if (!output)
+			{
+				LOG(WARNING) << "Failed to write active blip dump file: " << path;
+				return std::nullopt;
+			}
+
+			return active_blips.size();
+		}
+	}
+
 	void debug::misc()
 	{
 		if (ImGui::BeginTabItem("DEBUG_TAB_MISC"_T.data()))
@@ -38,6 +91,13 @@ namespace big
 			{
 				system::dump_entry_points();
 			}
+
+			components::button("Dump live blips to JSON", [] {
+				if (const auto count = dump_active_blips())
+					g_notification_service.push_success("DEBUG_TAB_MISC"_T.data(), std::format("Saved {} active blips to active_blips.json", *count));
+				else
+					g_notification_service.push_error("DEBUG_TAB_MISC"_T.data(), "Failed to write active_blips.json");
+			});
 
 			components::button("NETWORK_BAIL"_T, [] {
 				NETWORK::NETWORK_BAIL(16, 0, 0);

@@ -47,7 +47,24 @@ namespace big
 				{
 					auto relation = PED::GET_RELATIONSHIP_BETWEEN_PEDS(ped, self::ped);
 					if (relation == 4 || relation == 5/* || relation == 3*/)
-						ped::kill_ped(ped);
+					{
+						if (PED::IS_PED_IN_ANY_VEHICLE(ped, false))
+						{
+							auto vehicle = PED::GET_VEHICLE_PED_IS_IN(ped, false);
+							if (ENTITY::DOES_ENTITY_EXIST(vehicle) && ENTITY::IS_ENTITY_A_VEHICLE(vehicle))
+							{
+								if (entity::take_control_of(vehicle))
+								{
+									VEHICLE::SET_VEHICLE_ENGINE_HEALTH(vehicle, 0.f);
+									VEHICLE::SET_VEHICLE_ENGINE_ON(vehicle, false, true, false);
+								}
+							}
+							else
+								ped::kill_ped(ped);
+						}
+						else
+							ped::kill_ped(ped);
+					}
 				}
 			}
 		});

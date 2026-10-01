@@ -5,20 +5,47 @@
 #include <DbgHelp.h>
 #include <winternl.h>
 
+namespace
+{
+	struct symbol_session
+	{
+		std::once_flag m_init_once;
+		std::string m_search_path;
+		bool m_initialized = false;
+		DWORD m_init_error = ERROR_SUCCESS;
+
+		void initialize()
+		{
+			m_search_path = big::g_file_manager.get_module_dir().string();
+			SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+			m_initialized = SymInitialize(GetCurrentProcess(), m_search_path.empty() ? nullptr : m_search_path.c_str(), true);
+			if (!m_initialized)
+				m_init_error = GetLastError();
+		}
+
+		~symbol_session()
+		{
+			if (m_initialized)
+				SymCleanup(GetCurrentProcess());
+		}
+	};
+
+	symbol_session& get_symbol_session()
+	{
+		static symbol_session session;
+		return session;
+	}
+}
+
 namespace big
 {
 	stack_trace::stack_trace() :
 	    m_frame_pointers(32)
 	{
-		SymSetOptions(SYMOPT_LOAD_LINES | SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-
-		m_symbol_path = g_file_manager.get_module_dir().string();
-		m_symbols_initialized = SymInitialize(GetCurrentProcess(), m_symbol_path.c_str(), true);
 	}
 
 	stack_trace::~stack_trace()
 	{
-		SymCleanup(GetCurrentProcess());
 	}
 
 	const std::vector<uint64_t>& stack_trace::frame_pointers()
@@ -115,13 +142,20 @@ namespace big
 
 	void stack_trace::dump_stacktrace()
 	{
-		m_dump << "Symbol search path: " << (m_symbol_path.empty() ? "<empty>" : m_symbol_path) << '\n'
-		       << "Symbols initialized: " << (m_symbols_initialized ? "yes" : "no") << '\n';
+		auto& symbol_session = get_symbol_session();
+		std::call_once(symbol_session.m_init_once, [&symbol_session] {
+			symbol_session.initialize();
+		});
+
+		m_dump << "Symbol search path: " << (symbol_session.m_search_path.empty() ? "<default>" : symbol_session.m_search_path) << '\n'
+		       << "Symbols initialized: " << (symbol_session.m_initialized ? "yes" : "no") << '\n';
+		if (!symbol_session.m_initialized)
+			m_dump << "Symbol initialization error: " << symbol_session.m_init_error << '\n';
 
 		char effective_symbol_path[MAX_PATH]{};
-		if (SymGetSearchPath(GetCurrentProcess(), effective_symbol_path, sizeof(effective_symbol_path)))
+		if (symbol_session.m_initialized && SymGetSearchPath(GetCurrentProcess(), effective_symbol_path, sizeof(effective_symbol_path)))
 			m_dump << "Effective symbol search path: " << effective_symbol_path << '\n';
-		else
+		else if (symbol_session.m_initialized)
 			m_dump << "Failed to query effective symbol search path, error: " << GetLastError() << '\n';
 
 		m_dump << "Dumping stacktrace:";

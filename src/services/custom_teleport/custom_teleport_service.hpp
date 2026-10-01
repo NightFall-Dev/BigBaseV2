@@ -1,3 +1,4 @@
+#include "gta/enums.hpp"
 #include "file_manager.hpp"
 #include "util/teleport.hpp"
 
@@ -8,9 +9,11 @@ namespace big
 		std::string name;
 		float x, y, z;
 		float yaw = 0.0f, pitch = 0.0f, roll = 0.0f;
+		BlipIcons icon_id = static_cast<BlipIcons>(-1);
+		int blip_id = -1;
 	};
 
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(telelocation, name, x, y, z, yaw, pitch, roll);
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(telelocation, name, x, y, z, yaw, pitch, roll, icon_id);
 
 	class custom_teleport_service
 	{

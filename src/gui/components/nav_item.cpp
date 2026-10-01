@@ -18,8 +18,29 @@ namespace big
 		const char* key = nullptr;
 		if (key = g_translation_service.get_translation(navItem.second.name).data(); !key)
 			key = navItem.second.name;
-		if (components::nav_button(key))
+		const bool has_sub_nav = !navItem.second.sub_nav.empty();
+		const float arrow_offset = 7.f * g.window.gui_scale;
+		if (components::nav_button(key, has_sub_nav ? 18.f * g.window.gui_scale : 0.f))
 			g_gui_service->set_selected(navItem.first);
+
+		if (has_sub_nav)
+		{
+			const auto rect_min = ImGui::GetItemRectMin();
+			const auto rect_max = ImGui::GetItemRectMax();
+			const auto center = ImVec2(rect_min.x + arrow_offset, (rect_min.y + rect_max.y) * 0.5f);
+			const auto color = ImGui::GetColorU32(ImGuiCol_Text);
+			auto* draw_list = ImGui::GetForegroundDrawList();
+			if (current_tab)
+				draw_list->AddTriangleFilled({center.x - (4.f * g.window.gui_scale), center.y - (2.f * g.window.gui_scale)},
+				    {center.x + (4.f * g.window.gui_scale), center.y - (2.f * g.window.gui_scale)},
+				    {center.x, center.y + (3.f * g.window.gui_scale)},
+				    color);
+			else
+				draw_list->AddTriangleFilled({center.x - (2.f * g.window.gui_scale), center.y - (4.f * g.window.gui_scale)},
+				    {center.x - (2.f * g.window.gui_scale), center.y + (4.f * g.window.gui_scale)},
+				    {center.x + (3.f * g.window.gui_scale), center.y},
+				    color);
+		}
 
 		if (current_tab)
 			ImGui::PopStyleColor();

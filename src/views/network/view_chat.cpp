@@ -64,7 +64,7 @@ namespace big
 			}
 		}
 
-		components::command_checkbox<"translatechat">(std::nullopt, true);
+		components::command_checkbox<"translatechat">(std::nullopt, command_checkbox_availability::multiplayer_only);
 		if (g.session.chat_translator.enabled)
 		{
 			ImGui::Checkbox("TRANSLATOR_HIDE_SAME_LANGUAGE"_T.data(), &g.session.chat_translator.bypass_same_language);

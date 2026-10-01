@@ -150,8 +150,8 @@ namespace big
 
 		static CBaseModelInfo* get_model_info(rage::joaat_t hash, uint32_t* a2);
 
-		static int enumerate_audio_devices(CFoundDevice* found_devices, int count, int flags);
-		static HRESULT direct_sound_capture_create(GUID* guid, IDirectSoundCapture** sound, void* unknown);
+		//static int enumerate_audio_devices(CFoundDevice* found_devices, int count, int flags);
+		//static HRESULT direct_sound_capture_create(GUID* guid, IDirectSoundCapture** sound, void* unknown);
 
 		static void write_vehicle_proximity_migration_data_node(rage::netObject* veh, CVehicleProximityMigrationDataNode* node);
 
